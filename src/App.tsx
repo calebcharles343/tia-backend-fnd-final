@@ -11,19 +11,24 @@ import AuthGuard from "./features/authentication/AuthGuard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./features/authentication/Auth";
+import Cart from "./pages/Cart";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
+    element: (
+      <AuthGuard>
+        <AppLayout />
+      </AuthGuard>
+    ),
     children: [
       { path: "/", element: <Navigate to="home" /> },
       {
         path: "home",
-        element: (
-          <AuthGuard>
-            <Home />
-          </AuthGuard>
-        ),
+        element: <Home />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       },
     ],
   },
