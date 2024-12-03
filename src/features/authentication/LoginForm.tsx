@@ -1,14 +1,15 @@
 import { FormEvent, useState } from "react";
-import { login } from "../../services/apiAuth";
-import Cookies from "js-cookie";
+
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useNavigate } from "react-router-dom";
+import { authStore } from "../../store/authStore";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorLogin, setErrorLogin] = useState("");
+
   const navigate = useNavigate();
+
+  const { isLoading, signin, errMessage, user } = authStore();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -17,25 +18,10 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setErrorLogin("");
 
-    try {
-      const { email, password } = formData;
-      const response = await login(email, password);
-
-      if (response?.data?.token) {
-        Cookies.set("jwt", response.data.token, { expires: 7 });
-        navigate("/home");
-      } else {
-        setErrorLogin(response?.message || "Login failed. Please try again.");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      setErrorLogin("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    const { email, password } = formData;
+    await signin(email, password);
+    if (user) navigate("/home");
   };
 
   return (
@@ -89,9 +75,9 @@ export default function LoginForm() {
           />
         </div>
 
-        {errorLogin && (
+        {errMessage && (
           <span className="text-center text-red-500" aria-live="polite">
-            {errorLogin}
+            {errMessage}
           </span>
         )}
       </div>

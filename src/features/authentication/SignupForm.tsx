@@ -1,8 +1,7 @@
 import { FormEvent, useState } from "react";
-import { login, signup } from "../../services/apiAuth";
-import Cookies from "js-cookie";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useNavigate } from "react-router-dom";
+import { authStore } from "../../store/authStore";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -12,8 +11,8 @@ export default function SignupForm() {
     confirmPassword: "",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorLogin, setErrorLogin] = useState("");
+  const { isLoading, signup, errMessage, user } = authStore();
+
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,28 +22,10 @@ export default function SignupForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setErrorLogin("");
 
-    try {
-      const { name, email, password, confirmPassword } = formData;
-
-      // console.log(name, email, password, confirmPassword);
-
-      const response = await signup(name, email, password, confirmPassword);
-
-      if (response?.data?.token) {
-        Cookies.set("jwt", response.data.token, { expires: 7 });
-        navigate("/home");
-      } else {
-        setErrorLogin(response?.message || "Login failed. Please try again.");
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      setErrorLogin("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    const { name, email, password, confirmPassword } = formData;
+    await signup(name, email, password, confirmPassword);
+    if (user) navigate("/home");
   };
 
   return (
@@ -132,9 +113,9 @@ export default function SignupForm() {
           />
         </div>
 
-        {errorLogin && (
+        {errMessage && (
           <span className="text-center text-red-500" aria-live="polite">
-            {errorLogin}
+            {errMessage}
           </span>
         )}
       </div>
