@@ -1,7 +1,8 @@
 import { FormEvent, useState } from "react";
 import SpinnerMini from "../../ui/SpinnerMini";
-import { useNavigate } from "react-router-dom";
-import { authStore } from "../../store/authStore";
+
+import ShowPasswordIcon from "../../ui/ShowPasswordIcon";
+import { useSignup } from "./useSignup";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -11,9 +12,9 @@ export default function SignupForm() {
     confirmPassword: "",
   });
 
-  const { isLoading, signup, errMessage, user } = authStore();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const { signup, isPending, errorMessage } = useSignup();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -23,9 +24,11 @@ export default function SignupForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const { name, email, password, confirmPassword } = formData;
-    await signup(name, email, password, confirmPassword);
-    if (user) navigate("/home");
+    signup(formData);
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -48,7 +51,7 @@ export default function SignupForm() {
             Name
           </label>
           <input
-            className="w-full h-10 px-3 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
@@ -65,7 +68,7 @@ export default function SignupForm() {
             Email
           </label>
           <input
-            className="w-full h-10 px-3 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
@@ -82,40 +85,52 @@ export default function SignupForm() {
           <label htmlFor="password" className="block mb-1">
             Password
           </label>
-          <input
-            className="w-full h-10 px-3 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-             sm:h-10 sm:px-4 
-             md:h-10 md:px-5 
-             lg:h-10 lg:px-6"
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
+          <div className="relative w-full">
+            <input
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            sm:h-10 sm:px-4 
+            md:h-10 md:px-5 
+            lg:h-10 lg:px-6"
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+
+            <span
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              onClick={handleShowPassword}
+            >
+              <ShowPasswordIcon showPassword={showPassword} />
+            </span>
+          </div>
         </div>
         <div>
           <label htmlFor="confirmPassword" className="block mb-1">
             Confirm Password
           </label>
           <input
-            className="w-full h-10 px-3 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
             id="confirmPassword"
-            type="password"
-            placeholder="Enter your password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter confirm password"
             value={formData.confirmPassword}
             onChange={handleInputChange}
             required
           />
         </div>
 
-        {errMessage && (
-          <span className="text-center text-red-500" aria-live="polite">
-            {errMessage}
+        {errorMessage && (
+          <span
+            className="text-[12px] text-center text-red-500"
+            aria-live="polite"
+          >
+            {errorMessage}
           </span>
         )}
       </div>
@@ -123,9 +138,9 @@ export default function SignupForm() {
       <button
         type="submit"
         className="w-20 flex justify-center items-center bg-gray-800 text-white px-3 py-2 rounded-md shadow-md"
-        disabled={isLoading}
+        disabled={isPending}
       >
-        {isLoading ? <SpinnerMini /> : "Sign up"}
+        {isPending ? <SpinnerMini /> : "Sign up"}
       </button>
     </form>
   );

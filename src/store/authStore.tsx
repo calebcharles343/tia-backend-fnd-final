@@ -2,23 +2,7 @@ import { create, StateCreator } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
 import { login, signup } from "../services/apiAuth";
 import Cookies from "js-cookie";
-
-export interface Root {
-  token: string;
-  user: User;
-}
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  created_at: string;
-  active: boolean;
-  password_changed_at: any;
-  password_reset_token: any;
-  password_reset_expires: any;
-}
+import { Root } from "../interfaces";
 
 interface UserStore {
   user: Root | null; // Single authenticated user

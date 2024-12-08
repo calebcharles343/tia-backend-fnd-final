@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
+// import { logout } from "../services/apiAuth";
+import { useLogout } from "../features/authentication/useLogout";
+import SpinnerMini from "./SpinnerMini";
 
 export default function Sidebar() {
+  const { logout, isPending } = useLogout();
+  async function handleLogout() {
+    logout();
+  }
   return (
     <nav className="flex flex-col items-center row-start-1 row-end-3 w-full h-full p-4 shadow-xl gap-4">
       <span
@@ -19,8 +26,12 @@ export default function Sidebar() {
           <Link to="cart">Cart</Link>
         </li>
       </ul>
+
+      {isPending ? (
+        <SpinnerMini />
+      ) : (
+        <button onClick={handleLogout}> logout</button>
+      )}
     </nav>
   );
 }
-
-// bg-gray-900

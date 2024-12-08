@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { login as loginApi } from "../../services/apiAuth";
+import { signup as signupApi } from "../../services/apiAuth";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 
-interface LoginT {
+interface SignupT {
+  name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 interface ErrorResponse {
@@ -19,17 +21,18 @@ interface LoginError extends AxiosError {
   response?: AxiosResponse<ErrorResponse>;
 }
 
-export function useLogin() {
+export function useSignup() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const {
-    mutate: login,
+    mutate: signup,
     isPending,
     isError,
   } = useMutation({
-    mutationFn: ({ email, password }: LoginT) => loginApi(email, password),
+    mutationFn: ({ name, email, password, confirmPassword }: SignupT) =>
+      signupApi(name, email, password, confirmPassword),
 
     onSuccess: (data) => {
       if (data.status === 200) {
@@ -64,5 +67,5 @@ export function useLogin() {
     },
   });
 
-  return { login, isPending, isError, errorMessage };
+  return { signup, isPending, isError, errorMessage };
 }

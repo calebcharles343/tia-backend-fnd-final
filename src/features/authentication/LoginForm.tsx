@@ -1,15 +1,15 @@
 import { FormEvent, useState } from "react";
 
 import SpinnerMini from "../../ui/SpinnerMini";
-import { useNavigate } from "react-router-dom";
-import { authStore } from "../../store/authStore";
+import ShowPasswordIcon from "../../ui/ShowPasswordIcon";
+import { useLogin } from "./useLogin";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-
-  const { isLoading, signin, errMessage, user } = authStore();
+  // const { isLoading, signin, errMessage, user } = authStore();
+  const { login, isPending: isLoading, errorMessage } = useLogin();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -19,9 +19,14 @@ export default function LoginForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const { email, password } = formData;
-    await signin(email, password);
-    if (user) navigate("/home");
+    // const { email, password } = formData;
+    login(formData);
+    // await signin(email, password);
+    // if (user) navigate("/home");
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -44,13 +49,14 @@ export default function LoginForm() {
             Email
           </label>
           <input
-            className="w-full h-10 px-3 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
             id="email"
             type="email"
             placeholder="Enter your email"
+            autoComplete="current-password"
             value={formData.email}
             onChange={handleInputChange}
             required
@@ -61,23 +67,35 @@ export default function LoginForm() {
           <label htmlFor="password" className="block mb-1">
             Password
           </label>
-          <input
-            className="w-full h-10 px-3 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-             sm:h-10 sm:px-4 
-             md:h-10 md:px-5 
-             lg:h-10 lg:px-6"
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
+          <div className="relative w-full">
+            <input
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+                sm:h-10 sm:px-4 
+                md:h-10 md:px-5 
+                lg:h-10 lg:px-6"
+              id="password"
+              type={!showPassword ? "password" : "text"}
+              placeholder="Enter your password"
+              autoComplete="current-password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+            <span
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              onClick={handleShowPassword}
+            >
+              <ShowPasswordIcon showPassword={showPassword} />
+            </span>
+          </div>
         </div>
 
-        {errMessage && (
-          <span className="text-center text-red-500" aria-live="polite">
-            {errMessage}
+        {errorMessage && (
+          <span
+            className="text-[12px] text-center text-red-500"
+            aria-live="polite"
+          >
+            {errorMessage}
           </span>
         )}
       </div>
