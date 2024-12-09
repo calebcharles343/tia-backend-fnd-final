@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
-
-interface ImageUrls {
-  urls: string[];
-}
+import { Imagedata } from "../../interfaces";
 
 interface ErrorResponse {
   message: string; // Assuming the error response has a 'message' field
@@ -16,19 +13,20 @@ interface FetchError extends AxiosError {
 export function useFetchImages(headers: Record<string, string>) {
   const {
     data: images,
-    isLoading,
+    isLoading: isFetchingImages,
     isError,
     error,
-    refetch,
-  } = useQuery<ImageUrls, FetchError>({
+    refetch: refetchImages,
+  } = useQuery<Imagedata, FetchError>({
     queryKey: ["images"],
     queryFn: async () => {
       const response = await axios.get(
-        "https://backend-aws-a3-bucket.onrender.com/images",
+        "http://127.0.0.1:5003/api/v1/e-commerce/images",
         {
           headers,
         }
       );
+
       return response.data;
     },
   });
@@ -41,5 +39,5 @@ export function useFetchImages(headers: Record<string, string>) {
     console.error("Fetch Images Error:", errorMessage);
   }
 
-  return { images, isLoading, isError, error, refetch };
+  return { images, isFetchingImages, isError, error, refetchImages };
 }

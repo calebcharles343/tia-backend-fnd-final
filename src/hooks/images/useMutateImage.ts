@@ -1,13 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError, AxiosResponse } from "axios";
-
-interface ErrorResponse {
-  message: string; // Assuming the error response has a 'message' field
-}
-
-interface UploadError extends AxiosError {
-  response?: AxiosResponse<ErrorResponse>;
-}
+import axios from "axios";
 
 export function useUploadImage(headers: Record<string, string>) {
   const queryClient = useQueryClient();
@@ -19,24 +11,21 @@ export function useUploadImage(headers: Record<string, string>) {
     error,
   } = useMutation({
     mutationFn: async (formData: FormData) => {
-      const response = await axios.post(
-        "https://backend-aws-a3-bucket.onrender.com/images",
+      const response = await axios.put(
+        "http://127.0.0.1:5003/api/v1/e-commerce/images",
         formData,
-        {
-          headers,
-        }
+        { headers }
       );
-      return response.data;
+      return response.data; // Assuming response contains the uploaded image URL or key
     },
-    onSuccess: () => {
-      // Invalidate and refetch images query to update the list of images
-      queryClient.invalidateQueries(["images"] as any);
+    onSuccess: async () => {
+      // Refetch user and sync Zustand store
+      const updatedUser = await queryClient.fetchQuery(["user"] as any);
+
+      console.log("😭😭😭😭", updatedUser);
     },
-    onError: (err: UploadError) => {
-      const errorMessage =
-        err.response?.data.message ||
-        "An error occurred while uploading the image.";
-      console.error("Upload Error:", errorMessage);
+    onError: () => {
+      console.error("An error occurred while uploading the file.");
     },
   });
 

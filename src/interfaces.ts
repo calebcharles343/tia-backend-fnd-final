@@ -1,7 +1,10 @@
 export interface UserProfileToken {
-  email: string;
-  password: string;
-  token: string;
+  data: Root;
+}
+export interface useUserType {
+  data: UserType | undefined;
+  message?: string | undefined;
+  status?: 200 | undefined;
 }
 
 export interface UserProfile {
@@ -19,16 +22,26 @@ export interface UserType {
   name: string;
   email: string;
   role: string;
+  avatar: string;
   created_at: string;
   active: boolean;
   password_changed_at: any;
   password_reset_token: any;
   password_reset_expires: any;
 }
+export interface UpdateUserType {
+  name?: string;
+  email?: string;
+  role?: string;
+  avatar?: string;
+}
 
 ////////////////
 //images
 ////////////////
+export interface Imagedata {
+  data: ImageUrls;
+}
 export interface ImageUrls {
   urls: { url: string; key: string }[]; // Define the expected structure of your response
 }
