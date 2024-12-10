@@ -1,47 +1,48 @@
 import outline from "../data/img/passportDPnew.webp";
 import { HiSearch } from "react-icons/hi";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useUploadImage } from "../hooks/images/useUploadImage";
-import { useQueryClient } from "@tanstack/react-query";
+import { ChangeEvent, useEffect, useState, useMemo, useCallback } from "react";
+import { useUploadImage } from "../hooks/images/useMutateImage";
+import { authStore } from "../store/authStore";
 import { useUser } from "../features/authentication/useUser";
-import SpinnerMini from "./SpinnerMini";
-import Cookies from "js-cookie";
+import { UserType } from "../interfaces";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateUser } from "../features/authentication/useUpdateUser";
+import { useFetchImages } from "../hooks/images/useImages";
 
 export default function Header() {
+  const { useUser: storeUser, setUser } = authStore();
   const [errorFile, setErrorFile] = useState<string | undefined>();
   const queryClient = useQueryClient();
 
-  const authToken = Cookies.get("jwt");
-
-  const storedUserJSON = localStorage.getItem("localUser");
-  let storedUser = null;
-
-  if (storedUserJSON) {
-    try {
-      storedUser = JSON.parse(storedUserJSON);
-      console.log(storedUser);
-    } catch (error) {
-      console.error("Error parsing stored user data:", error);
-    }
-  } else {
-    console.log("No stored user found");
-  }
+  const storedUser = queryClient.getQueryData<UserType>(["user"]);
 
   const {
-    isLoading: isLoadingUser,
-    user: userNew,
+    user,
+    isLoading: isGettingUser,
     refetch: refetchUser,
-  } = useUser(storedUser?.id);
+  } = useUser(storeUser?.id);
 
-  const { uploadImage, isUploading } = useUploadImage({
-    "x-user-id": `userAvatar-${userNew?.data?.id}`,
-    "Content-Type": "multipart/form-data",
-    authorization: `Bearer ${authToken}`,
-  });
+  const { updateUser, isUpdatingUser, isError, error } = useUpdateUser();
+
+  const headers = useMemo(
+    () => ({
+      "x-user-id": `userAvatar-${storeUser?.id}`,
+      "Content-Type": "multipart/form-data",
+    }),
+    [storeUser?.id]
+  );
+
+  const { uploadImage, isUploading } = useUploadImage(headers);
+  const { images, refetchImages, isFetchingImages } = useFetchImages(headers);
 
   useEffect(() => {
-    refetchUser();
-  }, []);
+    if (images?.data.urls)
+      updateUser({
+        userId: storeUser?.id,
+        data: { avatar: images.data.urls[0].url },
+      });
+    console.log("❌");
+  }, [images?.data.urls]);
 
   async function handleUpload(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -51,18 +52,9 @@ export default function Header() {
         return;
       }
       setErrorFile("");
-
       const formData = new FormData();
-      formData.append("image", file);
-
-      // Upload image
-      uploadImage(formData, {
-        onSuccess: () => {
-          // Refetch user data after upload
-          queryClient.invalidateQueries(["user"] as any);
-          refetchUser();
-        },
-      });
+      formData.append("image", file); // Upload the image
+      uploadImage(formData);
     }
   }
 
@@ -98,18 +90,14 @@ export default function Header() {
         </div>
       </form>
 
-      {isLoadingUser ? (
-        <SpinnerMini />
-      ) : (
-        <div className="min-w-48 flex items-center gap-4">
-          <img
-            className="w-12 h-12 rounded-full"
-            src={userNew?.data?.avatar || outline}
-            alt="passport outline"
-          />
-          <span>{userNew?.data?.name}</span>
-        </div>
-      )}
+      <div className="min-w-48 flex items-center gap-4">
+        <img
+          className="w-12 h-12 rounded-full"
+          src={storeUser?.avatar || outline}
+          alt="passport outline"
+        />
+        <span>{storeUser?.name}</span>
+      </div>
     </header>
   );
 }

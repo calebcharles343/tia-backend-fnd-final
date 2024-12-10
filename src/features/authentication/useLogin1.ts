@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { login as loginApi } from "../../services/apiAuth";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
+import { authStore } from "../../store/authStore";
 
 interface LoginT {
   email: string;
@@ -23,6 +24,7 @@ export function useLogin() {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { setUser } = authStore();
 
   const {
     mutate: login,
@@ -30,14 +32,15 @@ export function useLogin() {
     isError,
   } = useMutation({
     mutationFn: ({ email, password }: LoginT) => loginApi(email, password),
+
     onSuccess: (data) => {
       if (data.status === 200) {
         const userData = data.data.user;
 
-        // Update React Query cache with user data
-        queryClient.setQueryData(["user"], userData);
-        localStorage.setItem("localUser", JSON.stringify(userData));
-        console.log("❌❌", userData);
+        queryClient.setQueryData(["user"], userData); // Update React Query cache
+        // console.log("❌❌", storeUser);
+
+        setUser(userData); // Sync with Zustand store
 
         Cookies.set("jwt", data.data.token, {
           expires: 7,
@@ -51,6 +54,7 @@ export function useLogin() {
         console.error("Login Error:", data.message);
       }
     },
+
     onError: (err: LoginError) => {
       const error = err.response?.data.message || "An error occurred";
       setErrorMessage(error);

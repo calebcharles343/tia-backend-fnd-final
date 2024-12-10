@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 // const apiURL = "https://shopping-list-f1b6.onrender.com/api/v1/shopping-list";
 const authToken = Cookies.get("jwt");
 
-const apiURL = "http://127.0.0.1:5003/api/v1/e-commerce";
+const apiURL = "http://127.0.0.1:5002/api/v1/e-commerce";
 const headers = { authorization: `Bearer ${authToken}` };
 
 export const login = async function (email: string, password: string) {
