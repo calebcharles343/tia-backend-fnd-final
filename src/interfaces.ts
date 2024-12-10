@@ -36,6 +36,23 @@ export interface UpdateUserType {
   avatar?: string;
 }
 
+export interface ProductsType {
+  data: ProductType[];
+}
+export interface ProductType {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  price: string;
+  avatar: any;
+  stock: number;
+  ratingCount: number;
+  ratingAverage: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 ////////////////
 //images
 ////////////////

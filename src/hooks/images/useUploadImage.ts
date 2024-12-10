@@ -2,8 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 export function useUploadImage(headers: Record<string, string>) {
-  const queryClient = useQueryClient();
-
   const {
     mutate: uploadImage,
     isPending: isUploading,

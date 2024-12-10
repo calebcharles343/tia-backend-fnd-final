@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 
 export default function Header() {
   const [errorFile, setErrorFile] = useState<string | undefined>();
+  const [isupdateBox, setIsupdateBox] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const authToken = Cookies.get("jwt");
@@ -38,6 +39,7 @@ export default function Header() {
     "Content-Type": "multipart/form-data",
     authorization: `Bearer ${authToken}`,
   });
+  console.log(isLoadingUser, isUploading);
 
   useEffect(() => {
     refetchUser();
@@ -64,26 +66,12 @@ export default function Header() {
         },
       });
     }
+
+    setIsupdateBox(false);
   }
 
   return (
     <header className="flex items-center justify-between col-start-2 col-end-3 c w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4">
-      {/* Hidden file input */}
-      <input
-        id="imageInput"
-        type="file"
-        className="hidden"
-        onChange={handleUpload}
-      />
-
-      {/* Upload button */}
-      <label
-        htmlFor="imageInput"
-        className="flex items-center justify-center border border-solid border-white p-2 rounded-lg cursor-pointer w-32 md:w-28 sm:w-24"
-      >
-        {isUploading ? "..." : "Upload"}
-      </label>
-
       <form>
         <div className="w-[55vw] flex items-center gap-2">
           <button>
@@ -98,16 +86,36 @@ export default function Header() {
         </div>
       </form>
 
-      {isLoadingUser ? (
+      {isUploading ? (
         <SpinnerMini />
       ) : (
-        <div className="min-w-48 flex items-center gap-4">
-          <img
-            className="w-12 h-12 rounded-full"
-            src={userNew?.data?.avatar || outline}
-            alt="passport outline"
-          />
-          <span>{userNew?.data?.name}</span>
+        <div className="relative min-w-48 flex-col items-center gap-4">
+          <div className="flex items-center gap-4 ">
+            <img
+              onClick={() => setIsupdateBox(!isupdateBox)}
+              className="w-12 h-12 rounded-full"
+              src={userNew?.data?.avatar || outline}
+              alt="passport outline"
+            />
+            <span>{userNew?.data?.name}</span>
+          </div>
+
+          {isupdateBox ? (
+            <div className="absolute bottom-[-50px] bg-white rounded-md border border-gray-800">
+              <input
+                id="imageInput"
+                type="file"
+                className="hidden"
+                onChange={handleUpload}
+              />
+              <label
+                htmlFor="imageInput"
+                className="flex items-center justify-center border border-solid border-white p-2 rounded-lg cursor-pointer w-32 md:w-28 sm:w-24"
+              >
+                {isUploading ? "..." : "Upload Photo"}
+              </label>
+            </div>
+          ) : null}
         </div>
       )}
     </header>
