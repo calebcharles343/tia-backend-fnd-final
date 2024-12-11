@@ -20,32 +20,42 @@ const cartSlice = createSlice({
       const existingItem = state.items.find(
         (item) => item.productId === action.payload.productId
       );
+
       if (action.payload.quantity === 0) {
         alert("Quantity cannot be zero.");
         return;
       }
+
       if (existingItem) {
-        existingItem.quantity =
-          Number(existingItem.quantity) + Number(action.payload.quantity);
+        existingItem.quantity += action.payload.quantity;
+        existingItem.totalPrice = existingItem.quantity * existingItem.price;
       } else {
-        state.items.push(action.payload);
+        state.items.push({
+          ...action.payload,
+          totalPrice: action.payload.quantity * action.payload.price,
+        });
       }
-      state.isCartNotEmpty = state.items.length > 0;
+
       state.totalPrice = state.items.reduce(
-        (total, item) => total + Number(item.price) * Number(item.quantity),
+        (total, item) => total + item.totalPrice!,
         0
       );
+      state.isCartNotEmpty = state.items.length > 0;
     },
+
     removeItem: (state, action: PayloadAction<number | string>) => {
       state.items = state.items.filter(
         (item) => item.productId !== action.payload
       );
-      state.isCartNotEmpty = state.items.length > 0;
+
+      // Recalculate cart-level totalPrice
       state.totalPrice = state.items.reduce(
-        (total, item) => total + Number(item.price) * Number(item.quantity),
+        (total, item) => total + item.totalPrice!,
         0
       );
+      state.isCartNotEmpty = state.items.length > 0;
     },
+
     clearCart: (state) => {
       state.items = [];
       state.isCartNotEmpty = false;

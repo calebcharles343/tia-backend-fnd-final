@@ -104,7 +104,6 @@ export default function Product({ product }: ProductProps) {
             handleAddItem({
               productId: product.id,
               name: product.name,
-              totalPrice: itemQuantity * product.price,
               price: product.price,
               quantity: itemQuantity,
             })

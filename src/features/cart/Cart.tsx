@@ -2,7 +2,7 @@ import { ItemType, CartType } from "../../interfaces";
 import { addItem, removeItem } from "../../store/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
-import cartImg3 from "../../data/img/cart-3.png";
+import cartImg3 from "../../data/img/cart.png";
 
 const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart); // state.cart will be of type CartType
@@ -54,7 +54,7 @@ const Cart = () => {
             <p>Name: {item.name}</p>
             <p>Quantity: {item.quantity}</p>
             <p>Price: ${item.price}</p>
-            <p>Total Price: ${item.totalPrice}</p>
+            <p>Total Price: ${item.price * item.quantity}</p>
             <button
               onClick={() => handleRemoveItem(item.productId)}
               className="mt-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"

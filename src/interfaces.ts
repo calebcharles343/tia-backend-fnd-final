@@ -65,13 +65,12 @@ export interface ProductType {
 export interface CartType {
   items: ItemType[];
 }
-
 export interface ItemType {
   productId: number | string;
   name: string;
-  price: number | string;
-  totalPrice: number | string;
-  quantity: number | string;
+  price: number;
+  quantity: number;
+  totalPrice?: number; // Optional, calculated in the reducer
 }
 
 export interface OrderType {
