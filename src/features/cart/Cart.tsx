@@ -65,7 +65,7 @@ const Cart = () => {
         ))}
       </div>
       <div className="mt-6 text-right">
-        <p className="text-lg font-bold">
+        <p className="text-lg font-bold text-gray-700 bg-gray-50  p-2 rounded-lg">
           Grand Total: ${cart.totalPrice.toFixed(2)}
         </p>
         <button
