@@ -9,7 +9,7 @@ import AppLayout from "./ui/AppLayout";
 import AuthGuard from "./features/authentication/AuthGuard";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./features/authentication/Auth";
-import Cart from "./pages/Cart";
+import Cart from "./pages/Orders";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";

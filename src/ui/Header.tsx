@@ -71,7 +71,7 @@ export default function Header() {
   }
 
   return (
-    <header className="flex items-center justify-between col-start-2 col-end-3 c w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4">
+    <header className="flex items-center justify-between col-start-2 col-end-3 c w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-8">
       <form>
         <div className="w-[55vw] flex items-center gap-2">
           <button>

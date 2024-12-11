@@ -36,16 +36,21 @@ export interface UpdateUserType {
   avatar?: string;
 }
 
+////////////////
+//Product
+////////////////
+
 export interface ProductsType {
   data: ProductType[];
 }
+
 export interface ProductType {
   id: number;
   name: string;
   description: string;
   category: string;
-  price: string;
-  avatar: any;
+  price: number;
+  avatar: string;
   stock: number;
   ratingCount: number;
   ratingAverage: number;
@@ -53,6 +58,30 @@ export interface ProductType {
   updatedAt: string;
 }
 
+////////////////
+//cart
+////////////////
+
+export interface CartType {
+  items: ItemType[];
+}
+
+export interface ItemType {
+  productId: number | string;
+  name: string;
+  price: number | string;
+  totalPrice: number | string;
+  quantity: number | string;
+}
+
+export interface OrderType {
+  items: OrderItemType[];
+}
+
+export interface OrderItemType {
+  productId: number | string;
+  quantity: number | string;
+}
 ////////////////
 //images
 ////////////////
