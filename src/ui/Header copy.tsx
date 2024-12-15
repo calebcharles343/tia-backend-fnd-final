@@ -6,7 +6,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useUser } from "../features/authentication/useUser";
 import SpinnerMini from "./SpinnerMini";
 import Cookies from "js-cookie";
-import imageHeader from "../utils/imageApiHeader";
 
 export default function Header() {
   const [errorFile, setErrorFile] = useState<string | undefined>();
@@ -35,13 +34,16 @@ export default function Header() {
     refetch: refetchUser,
   } = useUser(storedUser?.id);
 
+  const { uploadImage, isUploading } = useUploadImage({
+    "x-user-id": `userAvatar-${userNew?.data?.id}`,
+    "Content-Type": "multipart/form-data",
+    authorization: `Bearer ${authToken}`,
+  });
+  console.log(userNew, isLoadingUser, isUploading);
+
   useEffect(() => {
     refetchUser();
   }, []);
-
-  const { uploadImage, isUploading } = useUploadImage(
-    imageHeader(`userAvatar-${storedUser?.id}`)
-  );
 
   async function handleUpload(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -51,19 +53,25 @@ export default function Header() {
         return;
       }
       setErrorFile("");
+
       const formData = new FormData();
       formData.append("image", file);
-      console.log("FormData:", formData);
+
+      // Upload image
       uploadImage(formData, {
         onSuccess: () => {
+          // Refetch user data after upload
           queryClient.invalidateQueries(["user"] as any);
           refetchUser();
         },
       });
     }
+
+    setIsupdateBox(false);
   }
+
   return (
-    <header className="flex items-center justify-between col-start-2 col-end-3 w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-8">
+    <header className="flex items-center justify-between col-start-2 col-end-3 c w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-8">
       <form>
         <div className="w-[55vw] flex items-center gap-2">
           <button>
@@ -78,7 +86,7 @@ export default function Header() {
         </div>
       </form>
 
-      {isUploading || isLoadingUser ? (
+      {isUploading ? (
         <SpinnerMini />
       ) : (
         <div className="relative min-w-48 flex-col items-center gap-4">

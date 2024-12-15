@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Imagedata, ProductsType } from "../../interfaces";
-import Cookies from "js-cookie";
+import { getAllProducts } from "../../services/apiProducts";
 
 interface ErrorResponse {
   message: string;
@@ -12,9 +12,6 @@ interface FetchError extends AxiosError {
 }
 
 export function useFetchProducts() {
-  const authToken = Cookies.get("jwt");
-  const headers = { authorization: `Bearer ${authToken}` };
-
   const {
     data: products,
     isLoading: isLoadingProducts,
@@ -23,16 +20,7 @@ export function useFetchProducts() {
     refetch: refetchProducts,
   } = useQuery<ProductsType, FetchError>({
     queryKey: ["products"],
-    queryFn: async () => {
-      const response = await axios.get(
-        "http://127.0.0.1:5002/api/v1/e-commerce/products",
-        {
-          headers,
-        }
-      );
-
-      return response.data;
-    },
+    queryFn: getAllProducts,
   });
 
   // Handle errors

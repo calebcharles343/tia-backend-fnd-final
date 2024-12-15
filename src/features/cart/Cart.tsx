@@ -40,32 +40,34 @@ const Cart = () => {
 
   return (
     <div
-      className="flex flex-col w-full max-w-2xl h-full mx-auto mt-4 p-4 bg-gray-800 text-white rounded-lg border-2 border-[#FFA82B] bg-cover bg-center bg-no-repeat shadow-lg"
+      className="flex flex-col w-full max-w-4xl mx-auto mt-4 p-6 bg-gray-800 text-white rounded-lg border-2 border-[#FFA82B] bg-cover bg-center bg-no-repeat shadow-lg"
       style={{ backgroundImage: `url(${cartImg3})` }}
     >
-      <h1 className="text-xl font-bold mb-4">Shopping Cart</h1>
-      <div className="flex flex-col gap-4">
-        {cart.items.map((item: ItemType) => (
-          <div
-            key={item.productId}
-            className="flex flex-col bg-gray-700 p-2 rounded-lg shadow-md text-sm"
-          >
-            {/* <p className="font-semibold">Product ID: {item.productId}</p> */}
-            <p>Name: {item.name}</p>
-            <p>Quantity: {item.quantity}</p>
-            <p>Price: ${item.price}</p>
-            <p>Total Price: ${item.price * item.quantity}</p>
-            <button
-              onClick={() => handleRemoveItem(item.productId)}
-              className="mt-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
+      <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
+      <div className="h-auto overflow-y-auto">
+        <div className="flex flex-col gap-4">
+          {cart.items.map((item: ItemType) => (
+            <div
+              key={item.productId}
+              className="flex flex-col bg-gray-700 p-4 rounded-lg shadow-md text-sm"
             >
-              Remove
-            </button>
-          </div>
-        ))}
+              <p className="font-semibold">Product ID: {item.productId}</p>
+              <p>Name: {item.name}</p>
+              <p>Quantity: {item.quantity}</p>
+              <p>Price: ${item.price}</p>
+              <p>Total Price: ${item.price * item.quantity}</p>
+              <button
+                onClick={() => handleRemoveItem(item.productId)}
+                className="mt-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="mt-6 text-right">
-        <p className="text-lg font-bold text-gray-700 bg-gray-50  p-2 rounded-lg">
+        <p className="text-lg font-bold text-gray-800 bg-gray-50 p-2 rounded-lg">
           Grand Total: ${cart.totalPrice.toFixed(2)}
         </p>
         <button

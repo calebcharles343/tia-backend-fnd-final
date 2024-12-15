@@ -1,4 +1,4 @@
-import Products from "../features/Product/Products";
+import Products from "../features/product/Products";
 import Cart from "../features/cart/Cart";
 
 export default function Home() {

@@ -1,10 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { ItemType, ProductType } from "../../interfaces";
-import { useFetchProducts } from "./useFetchProducts";
+import { ItemType, ProductType } from "../../../interfaces";
 import Cookies from "js-cookie";
-import { useUploadImage } from "../../hooks/images/useUploadImage";
+import { useUploadImage } from "../../../hooks/images/useUploadImage";
+import { useFetchProducts } from "../useFetchProducts";
+import useProductStore from "../../../store/productStore";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../store/cartSlice";
+import { addItem } from "../../../store/cartSlice";
 
 interface ProductProps {
   product: ProductType;
@@ -30,6 +31,8 @@ export default function Product({ product }: ProductProps) {
     console.log("No stored user found");
   }
 
+  const { addItemToCart } = useProductStore();
+
   const { uploadImage, isUploading } = useUploadImage({
     "x-product-id": `productAvatar-${product?.id}`,
     "Content-Type": "multipart/form-data",
@@ -48,8 +51,10 @@ export default function Product({ product }: ProductProps) {
       const formData = new FormData();
       formData.append("image", file);
 
+      // Upload image
       uploadImage(formData, {
         onSuccess: () => {
+          // Refetch user data after upload
           refetchProducts();
         },
       });
@@ -74,7 +79,7 @@ export default function Product({ product }: ProductProps) {
   }, []);
 
   return (
-    <div className="flex flex-col w-full max-w-[300px] min-h-[300px] border border-[#FFA82B] p-4 gap-2 shadow-xl rounded-lg">
+    <div className="flex flex-col sm:w-full max-w-[300px] min-h-[400px] border border-[#FFA82B] p-4 gap-2 shadow-xl rounded-lg">
       <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
         {product.name}
       </p>
@@ -104,6 +109,7 @@ export default function Product({ product }: ProductProps) {
             handleAddItem({
               productId: product.id,
               name: product.name,
+              totalPrice: itemQuantity * product.price,
               price: product.price,
               quantity: itemQuantity,
             })
@@ -115,7 +121,7 @@ export default function Product({ product }: ProductProps) {
 
       {storedUser?.role === "Admin" && (
         <div className="flex items-center justify-between gap-2 mt-2 sm:mt-0">
-          <div className="bg-white rounded-md p-1">
+          <div className="bg-white rounded-md border border-gray-800 p-1">
             <input
               id="imageInput"
               type="file"
@@ -129,7 +135,7 @@ export default function Product({ product }: ProductProps) {
               {isUploading ? "..." : "photo +"}
             </label>
           </div>
-          <button className="text-xs p-1 border rounded">Edit product</button>
+          <button className="text-xs p-1 border rounded">Edit</button>
           <button className="text-xs p-1 border rounded">delete</button>
         </div>
       )}

@@ -11,4 +11,6 @@ export default {
   },
   variants: {},
   plugins: [],
+  // Ensure you are using the JIT mode
+  mode: "jit",
 };

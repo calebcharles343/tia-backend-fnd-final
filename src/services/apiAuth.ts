@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 // const apiURL = "https://shopping-list-f1b6.onrender.com/api/v1/shopping-list";
 const authToken = Cookies.get("jwt");
 
-const apiURL = "http://127.0.0.1:5002/api/v1/e-commerce";
+const apiURL = "https://tia-backend-final.onrender.com/api/v1/e-commerce";
 const headers = { authorization: `Bearer ${authToken}` };
 
 export const login = async function (email: string, password: string) {
@@ -61,10 +61,9 @@ export const signup = async function (
 
 export const getUser = async function (UserId: number | undefined) {
   try {
-    const response = await axios.get<UpdateUserType>(
-      `${apiURL}/users/${UserId}`,
-      { headers }
-    );
+    const response = await axios.get<UpdateUserType>(`${apiURL}/users/user`, {
+      headers,
+    });
     console.log(response.data);
 
     return response.data;
