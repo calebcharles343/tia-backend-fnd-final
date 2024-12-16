@@ -33,7 +33,7 @@ export default function Sidebar() {
         </li>
         <li>
           <Link
-            to="cart"
+            to="cartPage"
             className="flex items-center p-2 rounded hover:bg-[#ffa82b] hover:text-gray-800 transition-colors duration-200"
           >
             <BiCart className="mr-2" /> Cart
@@ -41,7 +41,7 @@ export default function Sidebar() {
         </li>
         <li>
           <Link
-            to="cart"
+            to="home/product/:id"
             className="flex items-center p-2 rounded hover:bg-[#ffa82b] hover:text-gray-800 transition-colors duration-200"
           >
             <BiInfoCircle className="mr-2" /> Product info

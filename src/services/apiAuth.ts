@@ -38,8 +38,6 @@ export const signup = async function (
   password: string,
   confirm_password: string
 ) {
-  console.log(name, email, password, confirm_password);
-
   try {
     const response = await axios.post<UserProfileToken>(
       `${apiURL}/users/signup`,

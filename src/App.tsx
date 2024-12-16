@@ -9,9 +9,10 @@ import AppLayout from "./ui/AppLayout";
 import AuthGuard from "./features/authentication/AuthGuard";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./features/authentication/Auth";
-import Cart from "./pages/Orders";
+import CartPage from "./pages/CartPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProductDetails from "./pages/ProductDetails";
 
 // Initialize QueryClient instance
 const queryClient = new QueryClient({
@@ -35,10 +36,11 @@ const router = createBrowserRouter([
         path: "home",
         element: <Home />,
       },
-      // {
-      //   path: "cart",
-      //   element: <Cart />,
-      // },
+      { path: "home/product/:id", element: <ProductDetails /> },
+      {
+        path: "cartPage",
+        element: <CartPage />,
+      },
     ],
   },
   { path: "auth", element: <Auth /> },

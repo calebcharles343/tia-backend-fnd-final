@@ -1,13 +1,27 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { ItemType, ProductType } from "../../interfaces";
+import { useUploadImage } from "../../hooks/images/useUploadImage";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../store/cartSlice";
+import imageHeader from "../../utils/imageApiHeader";
+import useGetProduct from "./useGetProduct";
+import SpinnerMini from "../../ui/SpinnerMini";
+import Modal from "../../ui/Modal";
+import UpdateProductForm from "./UpdateProductForm";
+
 interface ProductProps {
   product: ProductType;
 }
+
 export default function Product({ product }: ProductProps) {
+  const [errorFile, setErrorFile] = useState<string | undefined>();
   const [itemQuantity, setitemQuantity] = useState<number>(0);
-  console.log(product.id);
+
+  const {
+    product: freshProduct,
+    refetchProduct,
+    isLoadingProduct,
+  } = useGetProduct(product.id);
 
   const storedUserJSON = localStorage.getItem("localUser");
   let storedUser = null;
@@ -21,10 +35,39 @@ export default function Product({ product }: ProductProps) {
   } else {
     console.log("No stored user found");
   }
+
+  const { uploadImage, isUploading } = useUploadImage(
+    imageHeader(`productAvatar-${freshProduct?.data.id}`)
+  );
+
+  async function handleUpload(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      if (!["image/jpg", "image/jpeg", "image/png"].includes(file.type)) {
+        setErrorFile("File must be in JPG, JPEG, or PNG format.");
+        return;
+      }
+      setErrorFile("");
+      const formData = new FormData();
+      formData.append("image", file);
+      uploadImage(formData, {
+        onSuccess: () => {
+          refetchProduct();
+        },
+        onError: (error) => {
+          setErrorFile("An error occurred while uploading the image.");
+          console.error("Upload Error:", error);
+        },
+      });
+    }
+  }
+
   const dispatch = useDispatch();
+
   const handleAddItem = (item: ItemType) => {
     dispatch(addItem(item));
   };
+
   const handleAddQtr = () => {
     setitemQuantity(itemQuantity + 1);
   };
@@ -36,18 +79,17 @@ export default function Product({ product }: ProductProps) {
     setitemQuantity(0);
   }, []);
 
-  const handleUpload = (e: ChangeEvent, id: number) => {
-    console.log(id);
-  };
+  if (isLoadingProduct) return <SpinnerMini />;
+
   return (
-    <div className="flex flex-col w-full max-w-[300px] min-h-[300px] max-h-[300px] border border-[#FFA82B] p-4 gap-2 shadow-xl rounded-lg">
+    <div className="flex flex-col w-[250px] border border-[#FFA82B] p-4 gap-2 shadow-xl rounded-lg">
       <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
         {product.name}
       </p>
       <img
         src={product.avatar}
         alt={`Image of ${product.name}`}
-        className="w-full h-auto mb-auto rounded-lg"
+        className="w-full h-[150px] mb-auto rounded-lg"
       />
       <div className="flex flex-col sm:flex-row items-center justify-between mt-auto">
         <div>
@@ -80,22 +122,33 @@ export default function Product({ product }: ProductProps) {
       </div>
 
       {storedUser?.role === "Admin" && (
-        <div className="flex items-center justify-between md:w-[250px] gap-2 mt-2 sm:mt-0 border=">
+        <div className="flex items-center justify-between gap-2 mt-2 sm:mt-0">
           <div className="bg-white rounded-md p-1">
             <input
               id="imageInput"
               type="file"
               className="hidden"
-              onChange={(e) => handleUpload(e, product.id)}
+              onChange={handleUpload}
             />
             <label
               htmlFor="imageInput"
               className="flex items-center justify-center text-xs border border-solid p-1 rounded-lg cursor-pointer w-22 md:w-16 sm:w-12"
             >
-              {/* {isUploading ? "..." : "photo +"} */}
+              {isUploading ? "..." : "photo +"}
             </label>
           </div>
-          <button className="text-xs p-1 border rounded">Edit product</button>
+          <Modal>
+            <Modal.Open open="editProduct">
+              <button className="text-xs p-1 border rounded" type="button">
+                Edit product
+              </button>
+            </Modal.Open>
+
+            <Modal.Window name="editProduct">
+              <UpdateProductForm product={product} />
+            </Modal.Window>
+          </Modal>
+
           <button className="text-xs p-1 border rounded">delete</button>
         </div>
       )}

@@ -1,22 +1,32 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { ItemType, ProductType } from "../../interfaces";
-import { useFetchProducts } from "./useFetchProducts";
-import Cookies from "js-cookie";
 import { useUploadImage } from "../../hooks/images/useUploadImage";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../store/cartSlice";
+import imageHeader from "../../utils/imageApiHeader";
+import useGetProduct from "./useGetProduct";
+import SpinnerMini from "../../ui/SpinnerMini";
+import Modal from "../../ui/Modal";
+import UpdateProductForm from "./UpdateProductForm";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ProductProps {
-  product: ProductType;
+  product: any;
 }
-const authToken = Cookies.get("jwt");
 
 export default function Product({ product }: ProductProps) {
   const [errorFile, setErrorFile] = useState<string | undefined>();
   const [itemQuantity, setitemQuantity] = useState<number>(0);
 
-  const { refetchProducts } = useFetchProducts();
+  useParams();
+  // get product
+  const {
+    product: freshProduct,
+    refetchProduct,
+    isLoadingProduct,
+  } = useGetProduct(product.id);
 
+  // get user
   const storedUserJSON = localStorage.getItem("localUser");
   let storedUser = null;
 
@@ -30,12 +40,12 @@ export default function Product({ product }: ProductProps) {
     console.log("No stored user found");
   }
 
-  const { uploadImage, isUploading } = useUploadImage({
-    "x-product-id": `productAvatar-${product?.id}`,
-    "Content-Type": "multipart/form-data",
-    authorization: `Bearer ${authToken}`,
-  });
+  //upload image hook
+  const { uploadImage, isUploading } = useUploadImage(
+    imageHeader(`productAvatar-${freshProduct?.data.id}`)
+  );
 
+  //Upload image function
   async function handleUpload(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       const file = e.target.files[0];
@@ -44,18 +54,21 @@ export default function Product({ product }: ProductProps) {
         return;
       }
       setErrorFile("");
-
       const formData = new FormData();
       formData.append("image", file);
-
       uploadImage(formData, {
         onSuccess: () => {
-          refetchProducts();
+          refetchProduct();
+        },
+        onError: (error) => {
+          setErrorFile("An error occurred while uploading the image.");
+          console.error("Upload Error:", error);
         },
       });
     }
   }
 
+  //Cart Slice
   const dispatch = useDispatch();
 
   const handleAddItem = (item: ItemType) => {
@@ -73,15 +86,39 @@ export default function Product({ product }: ProductProps) {
     setitemQuantity(0);
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleClick = (id: number) => {
+    navigate(`/home/product/${id}`);
+  };
+
+  const { id } = useParams<{ id: string }>();
+  if (isLoadingProduct) return <SpinnerMini />;
+
   return (
-    <div className="flex flex-col w-full max-w-[300px] min-h-[300px] border border-[#FFA82B] p-4 gap-2 shadow-xl rounded-lg">
-      <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
-        {product.name}
-      </p>
+    <div
+      className={`text-gray-600 flex flex-col w-[250px] ${
+        id && "scale-125 mt-8"
+      } border border-gray-200 p-4 gap-2 shadow-xl rounded-lg`}
+    >
+      <div className="flex items-center justify-between">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
+          {product.name}
+        </p>
+
+        {!id && (
+          <button
+            onClick={() => handleClick(product.id)}
+            className="text-xs  px-3 border border-green-500  text-green-500 rounded-3xl"
+          >
+            info
+          </button>
+        )}
+      </div>
       <img
         src={product.avatar}
         alt={`Image of ${product.name}`}
-        className="w-full h-auto mb-auto rounded-lg"
+        className="w-full h-[150px] mb-auto rounded-lg"
       />
       <div className="flex flex-col sm:flex-row items-center justify-between mt-auto">
         <div>
@@ -90,16 +127,22 @@ export default function Product({ product }: ProductProps) {
           </span>
           <div className="flex items-center gap-2 text-xs">
             <span>qtr {itemQuantity}</span>
-            <button onClick={handleReduceQtr} className="p-1 border rounded">
+            <button
+              onClick={handleReduceQtr}
+              className=" w-4 p-1 border border-gray-300 rounded shadow-2xl"
+            >
               -
             </button>
-            <button onClick={handleAddQtr} className="p-1 border rounded">
+            <button
+              onClick={handleAddQtr}
+              className="w-4 p-1 border border-gray-300 rounded shadow-2xl "
+            >
               +
             </button>
           </div>
         </div>
         <button
-          className="flex text-xs mt-2 sm:mt-0 p-1 border rounded"
+          className="flex text-xs mt-2 sm:mt-0 p-1 border  border-gray-300 rounded"
           onClick={() =>
             handleAddItem({
               productId: product.id,
@@ -113,7 +156,7 @@ export default function Product({ product }: ProductProps) {
         </button>
       </div>
 
-      {storedUser?.role === "Admin" && (
+      {id && storedUser?.role === "Admin" && (
         <div className="flex items-center justify-between gap-2 mt-2 sm:mt-0">
           <div className="bg-white rounded-md p-1">
             <input
@@ -124,13 +167,26 @@ export default function Product({ product }: ProductProps) {
             />
             <label
               htmlFor="imageInput"
-              className="flex items-center justify-center text-xs border border-solid p-1 rounded-lg cursor-pointer w-22 md:w-16 sm:w-12"
+              className="flex items-center justify-center text-xs border  border-gray-300 p-1 rounded-lg cursor-pointer w-22 md:w-16 sm:w-12"
             >
               {isUploading ? "..." : "photo +"}
             </label>
           </div>
-          <button className="text-xs p-1 border rounded">Edit product</button>
-          <button className="text-xs p-1 border rounded">delete</button>
+          <Modal>
+            <Modal.Open open="editProduct">
+              <button className="text-xs p-1 border rounded" type="button">
+                Edit product
+              </button>
+            </Modal.Open>
+
+            <Modal.Window name="editProduct">
+              <UpdateProductForm product={product} />
+            </Modal.Window>
+          </Modal>
+
+          <button className="text-xs p-1 border border-red-500  rounded text-red-500 ">
+            delete
+          </button>
         </div>
       )}
     </div>

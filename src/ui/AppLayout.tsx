@@ -5,7 +5,7 @@ import Header from "./Header";
 export default function AppLayout() {
   return (
     <div
-      className="min-h-[1080px] grid grid-cols-[220px_1fr] grid-rows-[65px_1fr] h-screen text-gray-700 border border-red-500"
+      className="min-w-[100vh] min-h-[1080px] grid grid-cols-[220px_1fr] grid-rows-[65px_1fr] h-screen text-gray-700 border border-red-500 overflow-y-scroll"
       style={{ rowGap: "5px", fontFamily: "Joro" }}
     >
       <Sidebar />

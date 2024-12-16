@@ -62,16 +62,16 @@ export default function Header() {
       });
     }
   }
+
   return (
-    <header className="flex items-center justify-between col-start-2 col-end-3 w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-8">
-      <form>
-        <div className="w-[55vw] flex items-center gap-2">
+    <header className="flex items-center justify-between col-start-2 col-end-3 w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4 md:p-8">
+      <form className="flex-grow">
+        <div className="flex items-center gap-2">
           <button>
             <HiSearch />
           </button>
-
           <input
-            className="px-4 w-full h-8 mr-8 rounded-full focus:outline-none"
+            className="px-4 w-[60%] h-8 rounded-full focus:outline-none"
             type="text"
             placeholder="search"
           />
@@ -81,19 +81,17 @@ export default function Header() {
       {isUploading || isLoadingUser ? (
         <SpinnerMini />
       ) : (
-        <div className="relative min-w-48 flex-col items-center gap-4">
-          <div className="flex items-center gap-4 ">
-            <img
-              onClick={() => setIsupdateBox(!isupdateBox)}
-              className="w-12 h-12 rounded-full"
-              src={userNew?.data?.avatar || outline}
-              alt="passport outline"
-            />
-            <span>{userNew?.data?.name}</span>
-          </div>
+        <div className="relative flex items-center gap-4">
+          <img
+            onClick={() => setIsupdateBox(!isupdateBox)}
+            className="w-12 h-12 rounded-full cursor-pointer"
+            src={userNew?.data?.avatar || outline}
+            alt="passport outline"
+          />
+          <span className="hidden sm:block">{userNew?.data?.name}</span>
 
-          {isupdateBox ? (
-            <div className="absolute bottom-[-50px] bg-white rounded-md border border-gray-800">
+          {isupdateBox && (
+            <div className="absolute bottom-[-50px] bg-white rounded-md border border-gray-800 p-2">
               <input
                 id="imageInput"
                 type="file"
@@ -107,7 +105,7 @@ export default function Header() {
                 {isUploading ? "..." : "Upload Photo"}
               </label>
             </div>
-          ) : null}
+          )}
         </div>
       )}
     </header>
