@@ -31,8 +31,8 @@ export default function Products() {
   }
 
   return (
-    <div className="p-4 min-w-full md:min-w-[400px]">
-      <ul className="grid grid-cols-1 mid:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+    <div className="flex flex-col item p-4 min-w-full md:min-w-[400px] bg-red-700">
+      <ul className="grid grid-cols-1 mid:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12 sm:items-center">
         {products?.data.map((product: ProductType) => (
           <Product key={product.id} product={product} />
         ))}

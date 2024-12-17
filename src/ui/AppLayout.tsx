@@ -9,7 +9,7 @@ export default function AppLayout() {
         <Sidebar />
       </div>
       <Header />
-      <main className="flex items-center justify-center lg:col-start-2 col-span-2 row-start-2 p-4 overflow-y-scroll h-[calc(100vh-65px)]">
+      <main className="flex flex-col w-full lg:col-start-2 col-span-2 row-start-2 p-4 overflow-y-scroll h-[calc(100vh-65px)]">
         <Outlet />
       </main>
     </div>

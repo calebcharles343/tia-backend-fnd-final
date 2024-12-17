@@ -43,12 +43,14 @@ export const getAllProducts = async () => {
   return response.data;
 };
 
+export const createProduct = async (productData: Partial<ProductType>) => {
+  const response = await axiosInstance.post(`/products/create`, productData);
+  return response.data;
+};
 export const updateProduct = async (
   id: number,
   productData: Partial<ProductType>
 ) => {
-  console.log(productData, "❌❌❌");
-
   const response = await axiosInstance.patch(
     `/products/update/${id}`,
     productData

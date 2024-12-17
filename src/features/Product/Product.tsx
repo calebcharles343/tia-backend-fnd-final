@@ -97,21 +97,16 @@ export default function Product({ product }: ProductProps) {
   if (isLoadingProduct) return <SpinnerMini />;
 
   return (
-    <div
-      className={`text-gray-600 flex flex-col w-[250px] mt-12"
-     border border-gray-200 p-4 gap-2 shadow-xl rounded-lg`}
-    >
-      <div className="flex items-center justify-between">
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
-          {product.name}
-        </p>
+    <div className="text-gray-600 flex flex-col w-[250px] border border-gray-200 p-4 gap-4 shadow-lg rounded-lg">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-lg font-semibold">{product.name}</p>
 
         {!id && (
           <button
             onClick={() => handleClick(product.id)}
-            className="text-xs px-3 border border-green-500 text-green-500 rounded-3xl"
+            className="text-xs px-3 py-1 border border-green-500 text-green-500 rounded-full"
           >
-            info
+            Info
           </button>
         )}
       </div>
@@ -119,32 +114,32 @@ export default function Product({ product }: ProductProps) {
       <img
         src={product.avatar}
         alt={`Image of ${product.name}`}
-        className="w-full h-[150px] mb-auto rounded-lg"
+        className="w-full h-[150px] object-cover rounded-lg"
       />
 
-      <div className="flex flex-col sm:flex-row items-center justify-between mt-auto">
+      <div className="flex flex-col sm:flex-row items-center justify-between mt-2">
         <div>
-          <span className="text-sm sm:text-base md:text-lg lg:text-xl">
+          <span className="text-lg font-semibold text-green-700">
             ${product.price}
           </span>
-          <div className="flex items-center gap-2 text-xs">
-            <span>qtr {itemQuantity}</span>
+          <div className="flex items-center gap-2 text-xs mt-1">
+            <span>Qtr: {itemQuantity}</span>
             <button
               onClick={handleReduceQtr}
-              className="w-4 p-1 border border-gray-300 rounded shadow-2xl"
+              className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded-full shadow-sm"
             >
               -
             </button>
             <button
               onClick={handleAddQtr}
-              className="w-4 p-1 border border-gray-300 rounded shadow-2xl"
+              className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded-full shadow-sm"
             >
               +
             </button>
           </div>
         </div>
         <button
-          className="flex text-xs mt-2 sm:mt-0 p-1 border border-gray-300 rounded"
+          className="mt-2 sm:mt-0 px-3 py-1 text-xs text-white bg-blue-500 border border-blue-500 rounded-full hover:bg-blue-600"
           onClick={() =>
             handleAddItem({
               productId: product.id,
@@ -158,12 +153,12 @@ export default function Product({ product }: ProductProps) {
         </button>
       </div>
 
-      <div>
+      <div className="mt-2">
         <StarRating initialRating={product?.ratingAverage} />
       </div>
 
       {id && storedUser?.role === "Admin" && (
-        <div className="flex items-center justify-between gap-2 mt-2 sm:mt-0">
+        <div className="flex items-center justify-between gap-2 mt-2">
           <div className="bg-white rounded-md p-1">
             <input
               id="imageInput"
@@ -173,15 +168,18 @@ export default function Product({ product }: ProductProps) {
             />
             <label
               htmlFor="imageInput"
-              className="flex items-center justify-center text-xs border border-gray-300 p-1 rounded-lg cursor-pointer w-22 md:w-16 sm:w-12"
+              className="flex items-center justify-center text-xs border border-gray-300 p-1 rounded-lg cursor-pointer w-24"
             >
-              {isUploading ? "..." : "photo +"}
+              {isUploading ? "..." : "Photo +"}
             </label>
           </div>
           <Modal>
             <Modal.Open open="editProduct">
-              <button className="text-xs p-1 border rounded" type="button">
-                Edit product
+              <button
+                className="text-xs px-2 py-1 border rounded-md"
+                type="button"
+              >
+                Edit
               </button>
             </Modal.Open>
 
@@ -190,8 +188,8 @@ export default function Product({ product }: ProductProps) {
             </Modal.Window>
           </Modal>
 
-          <button className="text-xs p-1 border border-red-500 rounded text-red-500">
-            delete
+          <button className="text-xs px-2 py-1 border border-red-500 text-red-500 rounded-md">
+            Delete
           </button>
         </div>
       )}
