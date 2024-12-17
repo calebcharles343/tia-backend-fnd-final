@@ -45,11 +45,15 @@ export default function LoginForm() {
            md:max-w-lg md:px-8 md:py-10"
       >
         <div>
-          <label htmlFor="email" className="block mb-1">
+          <label
+            htmlFor="email"
+            className="block mb-1 font-bold"
+            style={{ letterSpacing: "2px" }}
+          >
             Email
           </label>
           <input
-            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="placeholder:text-sm w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
@@ -64,12 +68,16 @@ export default function LoginForm() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block mb-1">
+          <label
+            htmlFor="password"
+            className="block mb-1 font-bold"
+            style={{ letterSpacing: "2px" }}
+          >
             Password
           </label>
           <div className="relative w-full">
             <input
-              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+              className="placeholder:text-sm w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
                 sm:h-10 sm:px-4 
                 md:h-10 md:px-5 
                 lg:h-10 lg:px-6"

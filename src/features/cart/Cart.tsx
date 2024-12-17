@@ -8,8 +8,6 @@ const Cart = () => {
   const cart = useSelector((state: RootState) => state.cart); // state.cart will be of type CartType
   const dispatch = useDispatch();
 
-  console.log(cart, "xx❌");
-
   const handleAddItem = (item: ItemType) => {
     dispatch(addItem(item));
   };
@@ -51,7 +49,6 @@ const Cart = () => {
               key={item.productId}
               className="flex flex-col bg-gray-700 p-4 rounded-lg shadow-md text-sm"
             >
-              <p className="font-semibold">Product ID: {item.productId}</p>
               <p>Name: {item.name}</p>
               <p>Quantity: {item.quantity}</p>
               <p>Price: ${item.price}</p>

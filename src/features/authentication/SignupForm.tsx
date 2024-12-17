@@ -51,7 +51,7 @@ export default function SignupForm() {
             Name
           </label>
           <input
-            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="placeholder:text-sm w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
@@ -68,7 +68,7 @@ export default function SignupForm() {
             Email
           </label>
           <input
-            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="placeholder:text-sm w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"
@@ -87,7 +87,7 @@ export default function SignupForm() {
           </label>
           <div className="relative w-full">
             <input
-              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+              className="placeholder:text-sm w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
             sm:h-10 sm:px-4 
             md:h-10 md:px-5 
             lg:h-10 lg:px-6"
@@ -112,7 +112,7 @@ export default function SignupForm() {
             Confirm Password
           </label>
           <input
-            className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
+            className="placeholder:text-sm w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
              sm:h-10 sm:px-4 
              md:h-10 md:px-5 
              lg:h-10 lg:px-6"

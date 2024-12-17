@@ -4,13 +4,12 @@ import Header from "./Header";
 
 export default function AppLayout() {
   return (
-    <div
-      className="min-w-[100vh] min-h-[1080px] grid grid-cols-[220px_1fr] grid-rows-[65px_1fr] h-screen text-gray-700 border border-red-500 overflow-y-scroll"
-      style={{ rowGap: "5px", fontFamily: "Joro" }}
-    >
-      <Sidebar />
+    <div className="flex flex-col lg:grid lg:grid-cols-[230px_1fr] lg:grid-rows-[65px_1fr] h-screen text-gray-700 overflow-y-scroll lg:gap-[5px] font-joro">
+      <div className="hidden sm:hidden md:hidden lg:block">
+        <Sidebar />
+      </div>
       <Header />
-      <main className="col-span-2 row-start-2 p-4">
+      <main className="flex items-center justify-center lg:col-start-2 col-span-2 row-start-2 p-4 overflow-y-scroll h-[calc(100vh-65px)]">
         <Outlet />
       </main>
     </div>

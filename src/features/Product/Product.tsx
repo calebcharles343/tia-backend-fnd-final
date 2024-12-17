@@ -9,6 +9,7 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import Modal from "../../ui/Modal";
 import UpdateProductForm from "./UpdateProductForm";
 import { useNavigate, useParams } from "react-router-dom";
+import StarRating from "../../ui/StarRating";
 
 interface ProductProps {
   product: any;
@@ -97,9 +98,8 @@ export default function Product({ product }: ProductProps) {
 
   return (
     <div
-      className={`text-gray-600 flex flex-col w-[250px] ${
-        id && "scale-125 mt-8"
-      } border border-gray-200 p-4 gap-2 shadow-xl rounded-lg`}
+      className={`text-gray-600 flex flex-col w-[250px] mt-12"
+     border border-gray-200 p-4 gap-2 shadow-xl rounded-lg`}
     >
       <div className="flex items-center justify-between">
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl">
@@ -109,17 +109,19 @@ export default function Product({ product }: ProductProps) {
         {!id && (
           <button
             onClick={() => handleClick(product.id)}
-            className="text-xs  px-3 border border-green-500  text-green-500 rounded-3xl"
+            className="text-xs px-3 border border-green-500 text-green-500 rounded-3xl"
           >
             info
           </button>
         )}
       </div>
+
       <img
         src={product.avatar}
         alt={`Image of ${product.name}`}
         className="w-full h-[150px] mb-auto rounded-lg"
       />
+
       <div className="flex flex-col sm:flex-row items-center justify-between mt-auto">
         <div>
           <span className="text-sm sm:text-base md:text-lg lg:text-xl">
@@ -129,20 +131,20 @@ export default function Product({ product }: ProductProps) {
             <span>qtr {itemQuantity}</span>
             <button
               onClick={handleReduceQtr}
-              className=" w-4 p-1 border border-gray-300 rounded shadow-2xl"
+              className="w-4 p-1 border border-gray-300 rounded shadow-2xl"
             >
               -
             </button>
             <button
               onClick={handleAddQtr}
-              className="w-4 p-1 border border-gray-300 rounded shadow-2xl "
+              className="w-4 p-1 border border-gray-300 rounded shadow-2xl"
             >
               +
             </button>
           </div>
         </div>
         <button
-          className="flex text-xs mt-2 sm:mt-0 p-1 border  border-gray-300 rounded"
+          className="flex text-xs mt-2 sm:mt-0 p-1 border border-gray-300 rounded"
           onClick={() =>
             handleAddItem({
               productId: product.id,
@@ -156,6 +158,10 @@ export default function Product({ product }: ProductProps) {
         </button>
       </div>
 
+      <div>
+        <StarRating initialRating={product?.ratingAverage} />
+      </div>
+
       {id && storedUser?.role === "Admin" && (
         <div className="flex items-center justify-between gap-2 mt-2 sm:mt-0">
           <div className="bg-white rounded-md p-1">
@@ -167,7 +173,7 @@ export default function Product({ product }: ProductProps) {
             />
             <label
               htmlFor="imageInput"
-              className="flex items-center justify-center text-xs border  border-gray-300 p-1 rounded-lg cursor-pointer w-22 md:w-16 sm:w-12"
+              className="flex items-center justify-center text-xs border border-gray-300 p-1 rounded-lg cursor-pointer w-22 md:w-16 sm:w-12"
             >
               {isUploading ? "..." : "photo +"}
             </label>
@@ -184,7 +190,7 @@ export default function Product({ product }: ProductProps) {
             </Modal.Window>
           </Modal>
 
-          <button className="text-xs p-1 border border-red-500  rounded text-red-500 ">
+          <button className="text-xs p-1 border border-red-500 rounded text-red-500">
             delete
           </button>
         </div>

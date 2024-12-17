@@ -1,17 +1,25 @@
 import outline from "../data/img/passportDPnew.webp";
 import { HiSearch } from "react-icons/hi";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useUploadImage } from "../hooks/images/useUploadImage";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUser } from "../features/authentication/useUser";
 import SpinnerMini from "./SpinnerMini";
 import Cookies from "js-cookie";
 import imageHeader from "../utils/imageApiHeader";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import CartIcon from "./CartIcon";
+import { useNavigate } from "react-router-dom";
+import { BiMenu } from "react-icons/bi";
+import Sidebar from "./Sidebar";
 
 export default function Header() {
   const [errorFile, setErrorFile] = useState<string | undefined>();
   const [isupdateBox, setIsupdateBox] = useState<boolean>(false);
+  const [isMenu, setisMenu] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const authToken = Cookies.get("jwt");
 
@@ -63,12 +71,65 @@ export default function Header() {
     }
   }
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/cartPage`);
+  };
+
+  const handleMenu = () => {
+    setisMenu(!isMenu);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target as Node)
+    ) {
+      setisMenu(false);
+    }
+  };
+  useEffect(() => {
+    if (isMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenu]);
+
+  const cart = useSelector((state: RootState) => state.cart);
   return (
-    <header className="flex items-center justify-between col-start-2 col-end-3 w-full h-full bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4 md:p-8">
+    <header className="relative flex items-center justify-between col-start-2 col-end-3 bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4 md:p-8 z-50">
+      <button type="button" className="lg:hidden mr-8" onClick={handleMenu}>
+        <BiMenu
+          style={{
+            fontSize: "40px",
+            color: "#333",
+          }}
+        />
+      </button>{" "}
+      {isMenu && (
+        <div
+          ref={sidebarRef}
+          className={`lg:hidden absolute top-0 left-0 w-[230px] z-50 transform transition-transform duration-500 ease-in-out ${
+            isMenu ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <Sidebar />
+        </div>
+      )}
       <form className="flex-grow">
         <div className="flex items-center gap-2">
           <button>
-            <HiSearch />
+            <HiSearch
+              style={{
+                fontSize: "20px",
+                color: "#333",
+              }}
+            />
           </button>
           <input
             className="px-4 w-[60%] h-8 rounded-full focus:outline-none"
@@ -77,37 +138,42 @@ export default function Header() {
           />
         </div>
       </form>
-
-      {isUploading || isLoadingUser ? (
-        <SpinnerMini />
-      ) : (
-        <div className="relative flex items-center gap-4">
-          <img
-            onClick={() => setIsupdateBox(!isupdateBox)}
-            className="w-12 h-12 rounded-full cursor-pointer"
-            src={userNew?.data?.avatar || outline}
-            alt="passport outline"
-          />
-          <span className="hidden sm:block">{userNew?.data?.name}</span>
-
-          {isupdateBox && (
-            <div className="absolute bottom-[-50px] bg-white rounded-md border border-gray-800 p-2">
-              <input
-                id="imageInput"
-                type="file"
-                className="hidden"
-                onChange={handleUpload}
-              />
-              <label
-                htmlFor="imageInput"
-                className="flex items-center justify-center border border-solid border-white p-2 rounded-lg cursor-pointer w-32 md:w-28 sm:w-24"
-              >
-                {isUploading ? "..." : "Upload Photo"}
-              </label>
-            </div>
-          )}
+      <div className="flex items-center gap-4">
+        <div className="flex" onClick={() => handleClick()}>
+          <CartIcon length={cart.items.length} />
         </div>
-      )}
+
+        {isUploading || isLoadingUser ? (
+          <SpinnerMini />
+        ) : (
+          <div className="relative flex items-center gap-6">
+            <img
+              onClick={() => setIsupdateBox(!isupdateBox)}
+              className="w-12 h-12 rounded-full cursor-pointer"
+              src={userNew?.data?.avatar || outline}
+              alt="passport outline"
+            />
+            <span className="hidden sm:block">{userNew?.data?.name}</span>
+
+            {isupdateBox && (
+              <div className="absolute bottom-[-50px] bg-white rounded-md border border-gray-800 p-2">
+                <input
+                  id="imageInput"
+                  type="file"
+                  className="hidden"
+                  onChange={handleUpload}
+                />
+                <label
+                  htmlFor="imageInput"
+                  className="flex items-center justify-center border border-solid border-white p-2 rounded-lg cursor-pointer w-32 md:w-28 sm:w-24"
+                >
+                  {isUploading ? "..." : "Upload Photo"}
+                </label>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </header>
   );
 }
