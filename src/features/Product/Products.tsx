@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useFetchProducts } from "./useFetchProducts";
-import Product from "./Product";
-import { setProducts } from "../../store/productsSlice"; // Import Redux action
+import { setProducts } from "../../store/productsSlice";
 import { ProductType } from "../../interfaces";
 import Modal from "../../ui/Modal";
 import CreateProductForm from "./CreateProductForm";
+import SingleProduct from "./SingleProduct";
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ export default function Products() {
       )}{" "}
       <ul className="grid grid-cols-1 mid:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
         {products?.data.map((product: ProductType) => (
-          <Product key={product.id} product={product} />
+          <SingleProduct key={product.id} product={product} />
         ))}
       </ul>
     </div>

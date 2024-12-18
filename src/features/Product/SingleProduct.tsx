@@ -1,23 +1,24 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { ItemType } from "../../interfaces";
-import { useUploadImage } from "../../hooks/images/useUploadImage";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../store/cartSlice";
-import imageHeader from "../../utils/imageApiHeader";
-import useGetProduct from "./useGetProduct";
-import SpinnerMini from "../../ui/SpinnerMini";
 import Modal from "../../ui/Modal";
-import UpdateProductForm from "./UpdateProductForm";
+
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import StarRating from "../../ui/StarRating";
+import useGetProduct from "./useGetProduct";
 import useDeleteProduct from "./useDeleteProduct";
+import { ItemType } from "../../interfaces";
+import { addItem } from "../../store/cartSlice";
+import SpinnerMini from "../../ui/SpinnerMini";
+import StarRating from "../../ui/StarRating";
+import UpdateProductForm from "./UpdateProductForm";
+import { useUploadImage } from "../../hooks/images/useUploadImage";
+import imageHeader from "../../utils/imageApiHeader";
 
 interface ProductProps {
   product: any;
   ID?: number;
 }
 
-export default function Product({ product, ID }: ProductProps) {
+export default function SingleProduct({ product, ID }: ProductProps) {
   const [errorFile, setErrorFile] = useState<string | undefined>();
   const [itemQuantity, setitemQuantity] = useState<number>(0);
 

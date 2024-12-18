@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom";
 import Review from "../features/review/Review";
 import ReviewForm from "../features/review/ReviewForm";
-
-import Product from "../features/product/Product";
 import { useFetchReviews } from "../features/review/useFetchReviews";
 import { ReviewType } from "../interfaces";
 import useGetProduct from "../features/product/useGetProduct";
+import SingleProduct from "../features/product/SingleProduct";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
@@ -37,7 +36,7 @@ export default function ProductDetails() {
       <div className="flex flex-col md:flex-row lg:w-[700px] gap-8 p-4 overflow-y-auto">
         {/* Product Section */}
         <div className="md:w-1/2">
-          <Product product={mainProduct} ID={ID} />
+          <SingleProduct product={mainProduct} ID={ID} />
           <ReviewForm ProjuctId={ID} refetchReviews={refetchReviews} />
         </div>
 
