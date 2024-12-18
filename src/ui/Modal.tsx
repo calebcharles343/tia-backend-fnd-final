@@ -1,24 +1,24 @@
 import React, { ReactNode } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
-import { closeModal, openModal } from "../store/modalSlice.ts"; // Redux slice
-import { RootState } from "../store/store.tsx";
+import { closeModal, openModal } from "../store/modalSlice";
+import { RootState } from "../store/store";
 
 interface ModalProps {
   children: ReactNode;
 }
 
-function Modal({ children }: ModalProps): JSX.Element {
+function Modal({ children }: ModalProps) {
   return <>{children}</>;
 }
 
 // Component to trigger modal opening
 interface OpenProps {
-  children: React.ReactElement;
+  children: React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   open: string;
 }
 
-function Open({ children, open }: OpenProps): JSX.Element {
+function Open({ children, open }: OpenProps) {
   const dispatch = useDispatch();
 
   return React.cloneElement(children, {
@@ -32,7 +32,7 @@ interface WindowProps {
   name: string;
 }
 
-function Window({ children, name }: WindowProps): JSX.Element | null {
+function Window({ children, name }: WindowProps) {
   const dispatch = useDispatch();
   const { openName } = useSelector((state: RootState) => state.modal);
 
