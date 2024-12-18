@@ -1,6 +1,6 @@
 import axios from "axios";
 import generalApiHeader from "../utils/generalApiHeader";
-import { ProductType } from "../interfaces";
+import { ReviewType } from "../interfaces";
 
 const headers = generalApiHeader();
 const url = "https://tia-backend-final.onrender.com/api/v1/e-commerce";
@@ -38,25 +38,41 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const getAllProducts = async () => {
-  const response = await axiosInstance.get("/products");
+export const getAllReviews = async (productId: number) => {
+  const response = await axiosInstance.get(`/reviews/${productId}`);
   return response.data;
 };
 
-export const updateProduct = async (
-  id: number,
-  productData: Partial<ProductType>
-) => {
-  console.log(productData, "❌❌❌");
+export const getReview = async (productId: number, reviewId: number) => {
+  const response = await axiosInstance.get(`/reviews/${productId}/${reviewId}`);
+  return response.data;
+};
 
+export const createReview = async (
+  productId: number,
+  reviewData: ReviewType
+) => {
+  const response = await axiosInstance.post(
+    `/reviews/create/${productId}`,
+    reviewData
+  );
+  return response.data;
+};
+export const updateReview = async (
+  productId: number,
+  reviewId: number,
+  reviewData: ReviewType
+) => {
   const response = await axiosInstance.patch(
-    `/products/update/${id}`,
-    productData
+    `/reviews/update/${productId}/${reviewId}`,
+    reviewData
   );
   return response.data;
 };
 
-export const getProduct = async (id: number) => {
-  const response = await axiosInstance.get(`/products/${id}`);
+export const deleteReview = async (productId: number, reviewId: number) => {
+  const response = await axiosInstance.delete(
+    `/reviews/delete/${productId}/${reviewId}`
+  );
   return response.data;
 };

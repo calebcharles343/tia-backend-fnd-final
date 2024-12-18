@@ -57,7 +57,7 @@ export const signup = async function (
   }
 };
 
-export const getUser = async function (UserId: number | undefined) {
+export const getUser = async function () {
   try {
     const response = await axios.get<UpdateUserType>(`${apiURL}/users/user`, {
       headers,

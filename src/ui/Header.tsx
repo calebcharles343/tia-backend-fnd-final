@@ -5,7 +5,6 @@ import { useUploadImage } from "../hooks/images/useUploadImage";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUser } from "../features/authentication/useUser";
 import SpinnerMini from "./SpinnerMini";
-import Cookies from "js-cookie";
 import imageHeader from "../utils/imageApiHeader";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -20,8 +19,6 @@ export default function Header() {
   const [isMenu, setisMenu] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const sidebarRef = useRef<HTMLDivElement>(null);
-
-  const authToken = Cookies.get("jwt");
 
   const storedUserJSON = localStorage.getItem("localUser");
   let storedUser = null;
@@ -102,7 +99,7 @@ export default function Header() {
 
   const cart = useSelector((state: RootState) => state.cart);
   return (
-    <header className="relative flex items-center justify-between col-start-2 col-end-3 bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4 md:p-8 z-50">
+    <header className="relative flex items-center justify-between col-start-2 col-end-3 bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4  z-50">
       <button type="button" className="lg:hidden mr-8" onClick={handleMenu}>
         <BiMenu
           style={{
@@ -169,6 +166,7 @@ export default function Header() {
                 >
                   {isUploading ? "..." : "Upload Photo"}
                 </label>
+                {errorFile && <p>{errorFile}</p>}
               </div>
             )}
           </div>

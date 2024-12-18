@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { ItemType, ProductType } from "../../interfaces";
+import { ItemType } from "../../interfaces";
 import { useUploadImage } from "../../hooks/images/useUploadImage";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../store/cartSlice";
@@ -10,12 +10,14 @@ import Modal from "../../ui/Modal";
 import UpdateProductForm from "./UpdateProductForm";
 import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../../ui/StarRating";
+import useDeleteProduct from "./useDeleteProduct";
 
 interface ProductProps {
   product: any;
+  ID?: number;
 }
 
-export default function Product({ product }: ProductProps) {
+export default function Product({ product, ID }: ProductProps) {
   const [errorFile, setErrorFile] = useState<string | undefined>();
   const [itemQuantity, setitemQuantity] = useState<number>(0);
 
@@ -26,6 +28,8 @@ export default function Product({ product }: ProductProps) {
     refetchProduct,
     isLoadingProduct,
   } = useGetProduct(product.id);
+
+  const { deleteProduct } = useDeleteProduct();
 
   // get user
   const storedUserJSON = localStorage.getItem("localUser");
@@ -172,6 +176,8 @@ export default function Product({ product }: ProductProps) {
             >
               {isUploading ? "..." : "Photo +"}
             </label>
+
+            {errorFile && <p className="text-xs text-red-500">errorFile</p>}
           </div>
           <Modal>
             <Modal.Open open="editProduct">
@@ -188,7 +194,10 @@ export default function Product({ product }: ProductProps) {
             </Modal.Window>
           </Modal>
 
-          <button className="text-xs px-2 py-1 border border-red-500 text-red-500 rounded-md">
+          <button
+            onClick={() => deleteProduct(ID!)}
+            className="text-xs px-2 py-1 border border-red-500 text-red-500 rounded-md"
+          >
             Delete
           </button>
         </div>

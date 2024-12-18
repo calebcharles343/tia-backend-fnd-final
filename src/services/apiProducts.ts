@@ -38,15 +38,20 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+export const createProduct = async (productData: Partial<ProductType>) => {
+  const response = await axiosInstance.post(`/products/create`, productData);
+  return response.data;
+};
 export const getAllProducts = async () => {
   const response = await axiosInstance.get("/products");
   return response.data;
 };
 
-export const createProduct = async (productData: Partial<ProductType>) => {
-  const response = await axiosInstance.post(`/products/create`, productData);
+export const getProduct = async (id: number) => {
+  const response = await axiosInstance.get(`/products/${id}`);
   return response.data;
 };
+
 export const updateProduct = async (
   id: number,
   productData: Partial<ProductType>
@@ -57,8 +62,7 @@ export const updateProduct = async (
   );
   return response.data;
 };
-
-export const getProduct = async (id: number) => {
-  const response = await axiosInstance.get(`/products/${id}`);
+export const deleteProduct = async (id: number) => {
+  const response = await axiosInstance.delete(`/products/delete/${id}`);
   return response.data;
 };

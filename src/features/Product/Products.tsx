@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useFetchProducts } from "./useFetchProducts";
 import Product from "./Product";
 import { setProducts } from "../../store/productsSlice"; // Import Redux action
@@ -13,8 +13,8 @@ export default function Products() {
   // Fetch products using React Query
   const { products, isLoadingProducts, refetchProducts } = useFetchProducts();
 
-  // Select products from Redux store
-  const storeProducts = useSelector((state: any) => state.products.products); // Replace `any` with the root state type if defined
+  // // Select products from Redux store
+  // const storeProducts = useSelector((state: any) => state.products.products); // Replace `any` with the root state type if defined
 
   useEffect(() => {
     // Refetch products on component mount
@@ -49,13 +49,13 @@ export default function Products() {
   }
 
   return (
-    <div className="flex flex-col items-center p-4 min-w-full md:min-w-[400px] gap-4">
+    <div className="flex flex-col items-center min-w-full md:min-w-[400px] gap-4">
       {storedUser?.role === "Admin" && (
         <div className="flex items-center justify-between gap-2 mt-2">
           <Modal>
             <Modal.Open open="createProduct">
               <button
-                className="text-xs px-2 py-1 border rounded-md"
+                className="text-xs text-white bg-blue-500 border border-blue-500 hover:bg-blue-600 px-2 py-1  rounded-md"
                 type="button"
               >
                 Add Product

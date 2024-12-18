@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
 import { closeModal, openModal } from "../store/modalSlice"; // Redux slice
-import { useOutsideClick } from "../hooks/useOutsideClick";
 
 function Modal({ children }: { children: ReactNode }) {
   return <>{children}</>;

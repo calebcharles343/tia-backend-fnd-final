@@ -116,3 +116,14 @@ export interface QueryState<T> {
 export interface Headers {
   [key: string]: string;
 }
+
+export interface ReviewsType {
+  reviews: ReviewType[];
+}
+export interface ReviewType {
+  id?: number;
+  productId?: number;
+  review: string;
+  rating: number;
+  user: Partial<UserType>;
+}
