@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useFetchReviews } from "../features/review/useFetchReviews.ts";
 import { ReviewType } from "../interfaces.ts";
-import { useGetProduct } from "../features/product/useGetProduct.ts";
-import SingleProduct from "../features/product/SingleProduct.tsx";
+import { useGetProduct } from "../../src/features/product/useGetProduct.ts";
+import SingleProduct from "../../src//features/product/SingleProduct.tsx";
 import ReviewForm from "../features/review/ReviewForm.tsx";
 import Review from "../features/review/Review.tsx";
 

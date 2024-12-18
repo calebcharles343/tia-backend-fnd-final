@@ -1,6 +1,6 @@
 import React from "react";
-import Cart from "../features/cart/Cart.tsx";
-import Products from "../features/product/Products.tsx";
+import Cart from "../../src/features/cart/Cart.tsx";
+import Products from "../../src/features/product/Products.tsx";
 
 const ProductsContainer: React.FC = () => {
   // Get user
