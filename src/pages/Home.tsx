@@ -1,5 +1,5 @@
-import Products from "../features/product/Products";
 import Cart from "../features/cart/Cart";
+import Products from "../features/product/Products";
 
 export default function Home() {
   // get user

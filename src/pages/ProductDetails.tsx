@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import Review from "../features/review/Review";
 import ReviewForm from "../features/review/ReviewForm";
-import useGetProduct from "../features/product/useGetProduct";
+
 import Product from "../features/product/Product";
 import { useFetchReviews } from "../features/review/useFetchReviews";
 import { ReviewType } from "../interfaces";
+import useGetProduct from "../features/product/useGetProduct";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
