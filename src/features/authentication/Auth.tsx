@@ -1,7 +1,7 @@
 import { useState } from "react";
 import authBg from "../../data/img/bg-2.jpg";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
+import LoginForm from "./LoginForm.tsx";
+import SignupForm from "./SignupForm.tsx";
 
 const Auth: React.FC = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);

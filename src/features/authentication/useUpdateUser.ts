@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { UpdateUserType } from "../../interfaces";
-import { updateUser as updateUserApi } from "../../services/apiAuth"; // Import the API function
+import { UpdateUserType } from "../../interfaces.ts";
+import { updateUser as updateUserApi } from "../../services/apiAuth.ts"; // Import the API function
 
 interface ErrorResponse {
   message: string;

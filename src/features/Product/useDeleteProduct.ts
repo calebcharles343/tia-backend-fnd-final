@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { deleteProduct as deleteProductApi } from "../../services/apiProducts";
+import { deleteProduct as deleteProductApi } from "../../services/apiProducts.ts";
 import { useNavigate } from "react-router-dom";
 
 interface ErrorResponse {

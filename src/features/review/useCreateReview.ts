@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import { createReview as createReviewApi } from "../../services/apiReview";
-import { ReviewType } from "../../interfaces";
+import { createReview as createReviewApi } from "../../services/apiReview.ts";
+import { ReviewType } from "../../interfaces.ts";
 
 interface ErrorResponse {
   message: string;

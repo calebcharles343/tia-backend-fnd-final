@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
-import { closeModal, openModal } from "../store/modalSlice"; // Redux slice
-import { RootState } from "../store/store";
+import { closeModal, openModal } from "../store/modalSlice.ts"; // Redux slice
+import { RootState } from "../store/store.tsx";
 
 interface ModalProps {
   children: ReactNode;

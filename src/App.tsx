@@ -4,16 +4,16 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import PageNotFound from "./pages/PageNotFound";
-import Home from "./pages/Home";
-import AppLayout from "./ui/AppLayout";
-import AuthGuard from "./features/authentication/AuthGuard";
+import PageNotFound from "./pages/PageNotFound.tsx";
+import Home from "./pages/Home.tsx";
+import AppLayout from "./ui/AppLayout.tsx";
+import AuthGuard from "./features/authentication/AuthGuard.tsx";
 import "react-toastify/dist/ReactToastify.css";
-import Auth from "./features/authentication/Auth";
-import CartPage from "./pages/CartPage";
+import Auth from "./features/authentication/Auth.tsx";
+import CartPage from "./pages/CartPage.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import ProductDetails from "./pages/ProductDetails";
+import ProductDetails from "./pages/ProductDetails.tsx";
 
 // Initialize QueryClient instance
 const queryClient = new QueryClient({

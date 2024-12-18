@@ -1,6 +1,6 @@
 // cartSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { OrderType, OrderItemType } from "../interfaces";
+import { OrderType, OrderItemType } from "../interfaces.ts";
 
 const initialState: OrderType = {
   items: [],

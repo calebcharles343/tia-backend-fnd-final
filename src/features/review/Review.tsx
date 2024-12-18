@@ -1,5 +1,5 @@
-import { ReviewType } from "../../interfaces";
-import { useDeleteReview } from "./useDeleteReview";
+import { ReviewType } from "../../interfaces.ts";
+import { useDeleteReview } from "./useDeleteReview.ts";
 
 interface ReviewProps {
   review: ReviewType;

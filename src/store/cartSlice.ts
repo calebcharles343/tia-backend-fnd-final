@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartType, ItemType } from "../interfaces";
+import { CartType, ItemType } from "../interfaces.ts";
 
 interface CartState extends CartType {
   isCartNotEmpty: boolean;

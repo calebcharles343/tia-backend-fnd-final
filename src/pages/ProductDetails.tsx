@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useFetchReviews } from "../features/review/useFetchReviews";
-import { ReviewType } from "../interfaces";
-import { useGetProduct } from "../features/product/useGetProduct";
-import SingleProduct from "../features/product/SingleProduct";
-import ReviewForm from "../features/review/ReviewForm";
-import Review from "../features/review/Review";
+import { useFetchReviews } from "../features/review/useFetchReviews.ts";
+import { ReviewType } from "../interfaces.ts";
+import { useGetProduct } from "../features/product/useGetProduct.ts";
+import SingleProduct from "../features/product/SingleProduct.tsx";
+import ReviewForm from "../features/review/ReviewForm.tsx";
+import Review from "../features/review/Review.tsx";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
-import { ProductType } from "../../interfaces";
-import { useCreateProduct } from "./useCreateProduct";
+import { ProductType } from "../../interfaces.ts";
+import { useCreateProduct } from "./useCreateProduct.ts";
 
 const CreateProductForm: React.FC = () => {
   const [formData, setFormData] = useState<Partial<ProductType>>({

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useLogout } from "../features/authentication/useLogout";
-import SpinnerMini from "./SpinnerMini";
+import { useLogout } from "../features/authentication/useLogout.ts";
+import SpinnerMini from "./SpinnerMini.tsx";
 import sideBarImg2 from "../data/img/SIdeBar-2.jpg";
 import { BiCart, BiHome, BiInfoCircle, BiLogOut } from "react-icons/bi";
 

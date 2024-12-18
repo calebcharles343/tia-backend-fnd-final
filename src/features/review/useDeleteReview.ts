@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { deleteReview as deleteReviewApi } from "../../services/apiReview";
+import { deleteReview as deleteReviewApi } from "../../services/apiReview.ts";
 
 interface ErrorResponse {
   message: string;

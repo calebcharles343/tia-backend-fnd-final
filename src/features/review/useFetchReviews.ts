@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { ReviewType } from "../../interfaces";
-import { getAllReviews } from "../../services/apiReview";
+import { ReviewType } from "../../interfaces.ts";
+import { getAllReviews } from "../../services/apiReview.ts";
 
 interface ErrorResponse {
   message: string;

@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import { createProduct as createProductApi } from "../../services/apiProducts";
-import { ProductType } from "../../interfaces";
+import { createProduct as createProductApi } from "../../services/apiProducts.ts";
+import { ProductType } from "../../interfaces.ts";
 
 interface ErrorResponse {
   message: string; // Assuming the error response has a 'message' field

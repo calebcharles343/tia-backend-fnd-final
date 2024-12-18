@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useFetchProducts } from "./useFetchProducts";
-import { setProducts } from "../../store/productsSlice";
-import { ProductType } from "../../interfaces";
-import Modal from "../../ui/Modal";
-import CreateProductForm from "./CreateProductForm";
-import SingleProduct from "./SingleProduct";
+import { useFetchProducts } from "./useFetchProducts.ts";
+import { setProducts } from "../../store/productsSlice.ts";
+import { ProductType } from "../../interfaces.ts";
+import Modal from "../../ui/Modal.tsx";
+import CreateProductForm from "./CreateProductForm.tsx";
+import SingleProduct from "./SingleProduct.tsx";
 
 const Products: React.FC = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
-import SpinnerMini from "../../ui/SpinnerMini";
-import ShowPasswordIcon from "../../ui/ShowPasswordIcon";
-import { useSignup } from "./useSignup";
+import SpinnerMini from "../../ui/SpinnerMini.tsx";
+import ShowPasswordIcon from "../../ui/ShowPasswordIcon.tsx";
+import { useSignup } from "./useSignup.ts";
 
 interface FormData {
   name: string;

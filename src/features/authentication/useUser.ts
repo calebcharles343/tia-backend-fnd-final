@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useUserType } from "../../interfaces";
-import { getUser } from "../../services/apiAuth";
+import { useUserType } from "../../interfaces.ts";
+import { getUser } from "../../services/apiAuth.ts";
 
 export function useUser(UserId: number | undefined) {
   const {

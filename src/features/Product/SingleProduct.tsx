@@ -1,17 +1,18 @@
 import { useDispatch } from "react-redux";
-import Modal from "../../ui/Modal";
+import Modal from "../../ui/Modal.tsx";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ItemType } from "../../interfaces";
-import { addItem } from "../../store/cartSlice";
-import SpinnerMini from "../../ui/SpinnerMini";
-import StarRating from "../../ui/StarRating";
-import UpdateProductForm from "./UpdateProductForm";
-import { useUploadImage } from "../../hooks/images/useUploadImage";
-import imageHeader from "../../utils/imageApiHeader";
-import { useGetProduct } from "./useGetProduct";
-import { useDeleteProduct } from "./useDeleteProduct";
+import { ItemType } from "../../interfaces.ts";
+import { addItem } from "../../store/cartSlice.ts";
+import SpinnerMini from "../../ui/SpinnerMini.tsx";
+import StarRating from "../../ui/StarRating.tsx";
+import UpdateProductForm from "./UpdateProductForm.tsx";
+import { useUploadImage } from "../../hooks/images/useUploadImage.ts";
+
+import { useGetProduct } from "./useGetProduct.ts";
+import { useDeleteProduct } from "./useDeleteProduct.ts";
+import { imageHeader } from "../../utils/imageApiHeader.ts";
 
 interface ProductProps {
   product: any;

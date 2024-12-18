@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { login as loginApi } from "../../services/apiAuth";
+import { login as loginApi } from "../../services/apiAuth.ts";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 

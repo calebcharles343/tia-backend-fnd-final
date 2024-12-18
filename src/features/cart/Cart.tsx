@@ -1,7 +1,7 @@
-import { ItemType } from "../../interfaces";
-import { removeItem } from "../../store/cartSlice";
+import { ItemType } from "../../interfaces.ts";
+import { removeItem } from "../../store/cartSlice.ts";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store/store.ts";
 // import cartImg3 from "../../data/img/cart.png";
 
 const Cart = () => {

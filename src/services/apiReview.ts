@@ -1,6 +1,7 @@
 import axios from "axios";
-import generalApiHeader from "../utils/generalApiHeader";
+
 import { ReviewType } from "../interfaces";
+import { generalApiHeader } from "../utils/generalApiHeader";
 
 const headers = generalApiHeader();
 const url = "https://tia-backend-final.onrender.com/api/v1/e-commerce";

@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useUploadImage } from "../hooks/images/useUploadImage";
 import { useQueryClient } from "@tanstack/react-query";
 import SpinnerMini from "./SpinnerMini";
-import imageHeader from "../utils/imageApiHeader";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import CartIcon from "./CartIcon";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import Sidebar from "./Sidebar";
 import { useUser } from "../features/authentication/useUser";
+import { imageHeader } from "../utils/imageApiHeader";
 
 const Header: React.FC = () => {
   const [errorFile, setErrorFile] = useState<string | undefined>();

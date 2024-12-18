@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductType } from "../interfaces";
+import { ProductType } from "../interfaces.ts";
 
 // Explicitly type the state structure
 interface ProductsState {

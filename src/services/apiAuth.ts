@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { UpdateUserType, UserProfileToken } from "../interfaces";
+import { UpdateUserType, UserProfileToken } from "../interfaces.ts";
 import Cookies from "js-cookie";
 
 // const apiURL = "https://shopping-list-f1b6.onrender.com/api/v1/shopping-list";

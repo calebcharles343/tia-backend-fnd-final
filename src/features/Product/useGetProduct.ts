@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { ProductType } from "../../interfaces";
-import { getProduct } from "../../services/apiProducts";
+import { ProductType } from "../../interfaces.ts";
+import { getProduct } from "../../services/apiProducts.ts";
 
 interface ErrorResponse {
   message: string;

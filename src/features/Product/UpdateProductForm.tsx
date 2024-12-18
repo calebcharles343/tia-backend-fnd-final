@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useUpdateProduct } from "./useUpdateProduct";
-import { ProductType } from "../../interfaces";
+import { useUpdateProduct } from "./useUpdateProduct.ts";
+import { ProductType } from "../../interfaces.ts";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store/store.ts";
 
 interface UpdateProductFormProps {
   product: ProductType | undefined;

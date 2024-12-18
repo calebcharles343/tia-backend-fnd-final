@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCreateReview } from "./useCreateReview";
+import { useCreateReview } from "./useCreateReview.ts";
 
 interface ReviewFormProps {
   productId: number;
