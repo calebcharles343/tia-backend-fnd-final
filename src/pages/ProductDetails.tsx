@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import Review from "../features/review/Review";
-import ReviewForm from "../features/review/ReviewForm";
 import { useFetchReviews } from "../features/review/useFetchReviews";
 import { ReviewType } from "../interfaces";
-import useGetProduct from "../features/product/useGetProduct";
+import { useGetProduct } from "../features/product/useGetProduct";
 import SingleProduct from "../features/product/SingleProduct";
+import ReviewForm from "../features/review/ReviewForm";
+import Review from "../features/review/Review";
 
-export default function ProductDetails() {
+const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   let ID;
@@ -27,17 +27,13 @@ export default function ProductDetails() {
 
   const mainProduct = product?.data || firstProduct;
 
-  if (isLoadingProduct) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <div className="flex flex-col items-center w-full">
       <div className="flex flex-col md:flex-row lg:w-[700px] gap-8 p-4 overflow-y-auto">
         {/* Product Section */}
         <div className="md:w-1/2">
           <SingleProduct product={mainProduct} ID={ID} />
-          <ReviewForm ProjuctId={ID} refetchReviews={refetchReviews} />
+          <ReviewForm productId={ID} refetchReviews={refetchReviews} />
         </div>
 
         {/* Reviews Section */}
@@ -63,4 +59,6 @@ export default function ProductDetails() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDetails;

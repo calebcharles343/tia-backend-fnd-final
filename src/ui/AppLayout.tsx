@@ -1,8 +1,9 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
-export default function AppLayout() {
+const AppLayout: React.FC = () => {
   return (
     <div className="flex flex-col lg:grid lg:grid-cols-[230px_1fr] lg:grid-rows-[65px_1fr] h-screen text-gray-700 overflow-y-scroll lg:gap-[5px] font-joro">
       <div className="hidden sm:hidden md:hidden lg:block">
@@ -14,4 +15,6 @@ export default function AppLayout() {
       </main>
     </div>
   );
-}
+};
+
+export default AppLayout;

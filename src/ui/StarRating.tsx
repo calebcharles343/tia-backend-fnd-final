@@ -3,10 +3,10 @@ type StarRatingProps = {
   initialRating?: number; // Initial rating value
 };
 
-export default function StarRating({
+const StarRating: React.FC<StarRatingProps> = ({
   maxStars = 5,
   initialRating = 0,
-}: StarRatingProps) {
+}) => {
   return (
     <div style={{ display: "flex", gap: "5px" }}>
       {Array.from({ length: maxStars }, (_, index) => {
@@ -25,4 +25,6 @@ export default function StarRating({
       })}
     </div>
   );
-}
+};
+
+export default StarRating;

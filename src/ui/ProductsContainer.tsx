@@ -1,8 +1,9 @@
+import React from "react";
 import Cart from "../features/cart/Cart";
 import Products from "../features/product/Products";
 
-export default function ProductsContainer() {
-  // get user
+const ProductsContainer: React.FC = () => {
+  // Get user
   const storedUserJSON = localStorage.getItem("localUser");
   let storedUser = null;
 
@@ -15,15 +16,18 @@ export default function ProductsContainer() {
   } else {
     console.log("No stored user found");
   }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[80%_20%] pr-20 pb-20 overflow-y-scroll">
       <Products />
       <div
         className="hidden lg:block"
-        style={{ marginTop: `${storedUser?.role && "54px"}` }}
+        style={{ marginTop: storedUser?.role ? "54px" : undefined }}
       >
         <Cart />
       </div>
     </div>
   );
-}
+};
+
+export default ProductsContainer;

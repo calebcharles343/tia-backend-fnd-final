@@ -1,9 +1,13 @@
 import { HiMiniEye, HiMiniEyeSlash } from "react-icons/hi2";
 
-export default function ShowPasswordIcon({
-  showPassword,
-}: {
+interface ShowPasswordIconProps {
   showPassword: boolean;
-}) {
-  return <>{!showPassword ? <HiMiniEye /> : <HiMiniEyeSlash />}</>;
 }
+
+const ShowPasswordIcon: React.FC<ShowPasswordIconProps> = ({
+  showPassword,
+}) => {
+  return <>{!showPassword ? <HiMiniEye /> : <HiMiniEyeSlash />}</>;
+};
+
+export default ShowPasswordIcon;

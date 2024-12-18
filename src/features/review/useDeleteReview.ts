@@ -10,7 +10,7 @@ interface FetchError extends AxiosError {
   response?: AxiosResponse<ErrorResponse>;
 }
 
-function useDeleteReview(productId: number) {
+export function useDeleteReview(productId: number) {
   const queryClient = useQueryClient();
 
   const {
@@ -38,5 +38,3 @@ function useDeleteReview(productId: number) {
     errorDeletingReview,
   };
 }
-
-export default useDeleteReview;

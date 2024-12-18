@@ -1,9 +1,12 @@
+import React from "react";
 import ProductsContainer from "../ui/ProductsContainer";
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <div>
       <ProductsContainer />
     </div>
   );
-}
+};
+
+export default Home;

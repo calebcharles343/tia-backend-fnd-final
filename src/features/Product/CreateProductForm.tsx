@@ -1,9 +1,8 @@
 import { FormEvent, useState } from "react";
-
 import { ProductType } from "../../interfaces";
 import { useCreateProduct } from "./useCreateProduct";
 
-export default function CreateProductForm() {
+const CreateProductForm: React.FC = () => {
   const [formData, setFormData] = useState<Partial<ProductType>>({
     name: "",
     description: "",
@@ -38,32 +37,21 @@ export default function CreateProductForm() {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center gap-4 
-    sm:gap-6 
-    md:gap-8 
-    lg:gap-10"
+        className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10"
       >
-        <div
-          className="flex flex-col w-full max-w-sm border rounded-md px-4 py-6 
-           bg-[rgba(255,255,255,0.1)] backdrop-blur-[6.2px] 
-           border-[rgba(255,153,40,1)] text-gray-700 font-medium gap-4 shadow-xl 
-           sm:max-w-md sm:px-6 sm:py-8 
-           md:max-w-lg md:px-8 md:py-10"
-        >
+        <div className="flex flex-col w-full max-w-sm border rounded-md px-4 py-6 bg-[rgba(255,255,255,0.1)] backdrop-blur-[6.2px] border-[rgba(255,153,40,1)] text-gray-700 font-medium gap-4 shadow-xl sm:max-w-md sm:px-6 sm:py-8 md:max-w-lg md:px-8 md:py-10">
           <div>
             <label htmlFor="name" className="block mb-1">
               Name
             </label>
             <input
-              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-             sm:h-10 sm:px-4 
-             md:h-10 md:px-5 
-             lg:h-10 lg:px-6"
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none sm:h-10 sm:px-4 md:h-10 md:px-5 lg:h-10 lg:px-6"
               id="name"
               type="text"
               placeholder="Enter product name"
               value={formData.name}
               onChange={handleInputChange}
+              required
             />
           </div>
           <div>
@@ -71,45 +59,35 @@ export default function CreateProductForm() {
               Description
             </label>
             <input
-              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-             sm:h-10 sm:px-4 
-             md:h-10 md:px-5 
-             lg:h-10 lg:px-6"
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none sm:h-10 sm:px-4 md:h-10 md:px-5 lg:h-10 lg:px-6"
               id="description"
               type="text"
               placeholder="Enter product description"
               value={formData.description}
               onChange={handleInputChange}
+              required
             />
           </div>
-
           <div>
             <label htmlFor="category" className="block mb-1">
               Category
             </label>
-            <div className="relative w-full">
-              <input
-                className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-            sm:h-10 sm:px-4 
-            md:h-10 md:px-5 
-            lg:h-10 lg:px-6"
-                id="category"
-                type="text"
-                placeholder="Enter product category"
-                value={formData.category}
-                onChange={handleInputChange}
-              />
-            </div>
+            <input
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none sm:h-10 sm:px-4 md:h-10 md:px-5 lg:h-10 lg:px-6"
+              id="category"
+              type="text"
+              placeholder="Enter product category"
+              value={formData.category}
+              onChange={handleInputChange}
+              required
+            />
           </div>
           <div>
             <label htmlFor="price" className="block mb-1">
               Price
             </label>
             <input
-              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-             sm:h-10 sm:px-4 
-             md:h-10 md:px-5 
-             lg:h-10 lg:px-6"
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none sm:h-10 sm:px-4 md:h-10 md:px-5 lg:h-10 lg:px-6"
               id="price"
               type="number"
               placeholder="Enter product price"
@@ -123,10 +101,7 @@ export default function CreateProductForm() {
               Stock
             </label>
             <input
-              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none 
-             sm:h-10 sm:px-4 
-             md:h-10 md:px-5 
-             lg:h-10 lg:px-6"
+              className="w-full h-10 px-2 rounded-md shadow-md bg-gray-100 border focus:border-[#B97743] focus:outline-none sm:h-10 sm:px-4 md:h-10 md:px-5 lg:h-10 lg:px-6"
               id="stock"
               type="number"
               placeholder="Enter product stock amount"
@@ -135,7 +110,6 @@ export default function CreateProductForm() {
               required
             />
           </div>
-
           {errorMessage && (
             <span
               className="text-[12px] text-center text-red-500"
@@ -145,7 +119,6 @@ export default function CreateProductForm() {
             </span>
           )}
         </div>
-
         <button
           type="submit"
           className="w-20 flex justify-center items-center bg-gray-800 text-white px-3 py-2 rounded-md shadow-md"
@@ -156,4 +129,6 @@ export default function CreateProductForm() {
       </form>
     </div>
   );
-}
+};
+
+export default CreateProductForm;

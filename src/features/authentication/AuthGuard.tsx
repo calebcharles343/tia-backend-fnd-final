@@ -6,7 +6,7 @@ interface AuthGuardProps {
   children: ReactNode;
 }
 
-const AuthGuard = ({ children }: AuthGuardProps) => {
+const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const authToken = Cookies.get("jwt");
 
   console.log(authToken);
@@ -15,7 +15,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
     return <Navigate to="/auth" replace />;
   }
 
-  return <>{children}</>; // Render children if authenticated
+  return <>{children}</>;
 };
 
 export default AuthGuard;

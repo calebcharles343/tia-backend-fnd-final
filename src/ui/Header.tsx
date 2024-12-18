@@ -13,10 +13,10 @@ import { BiMenu } from "react-icons/bi";
 import Sidebar from "./Sidebar";
 import { useUser } from "../features/authentication/useUser";
 
-export default function Header() {
+const Header: React.FC = () => {
   const [errorFile, setErrorFile] = useState<string | undefined>();
-  const [isupdateBox, setIsupdateBox] = useState<boolean>(false);
-  const [isMenu, setisMenu] = useState<boolean>(false);
+  const [isUpdateBox, setIsUpdateBox] = useState<boolean>(false);
+  const [isMenu, setIsMenu] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -42,13 +42,13 @@ export default function Header() {
 
   useEffect(() => {
     refetchUser();
-  }, []);
+  }, [refetchUser]);
 
   const { uploadImage, isUploading } = useUploadImage(
     imageHeader(`userAvatar-${storedUser?.id}`)
   );
 
-  async function handleUpload(e: ChangeEvent<HTMLInputElement>) {
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
       if (!["image/jpg", "image/jpeg", "image/png"].includes(file.type)) {
@@ -66,7 +66,7 @@ export default function Header() {
         },
       });
     }
-  }
+  };
 
   const navigate = useNavigate();
 
@@ -75,7 +75,7 @@ export default function Header() {
   };
 
   const handleMenu = () => {
-    setisMenu(!isMenu);
+    setIsMenu(!isMenu);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -83,9 +83,10 @@ export default function Header() {
       sidebarRef.current &&
       !sidebarRef.current.contains(event.target as Node)
     ) {
-      setisMenu(false);
+      setIsMenu(false);
     }
   };
+
   useEffect(() => {
     if (isMenu) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -98,16 +99,12 @@ export default function Header() {
   }, [isMenu]);
 
   const cart = useSelector((state: RootState) => state.cart);
+
   return (
-    <header className="relative flex items-center justify-between col-start-2 col-end-3 bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4  z-50">
+    <header className="relative flex items-center justify-between col-start-2 col-end-3 bg-[#FFA82B] shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[20px] border border-[rgba(255, 155, 0, 0.57)] rounded-lg p-4 z-50">
       <button type="button" className="lg:hidden mr-8" onClick={handleMenu}>
-        <BiMenu
-          style={{
-            fontSize: "40px",
-            color: "#333",
-          }}
-        />
-      </button>{" "}
+        <BiMenu style={{ fontSize: "40px", color: "#333" }} />
+      </button>
       {isMenu && (
         <div
           ref={sidebarRef}
@@ -120,13 +117,8 @@ export default function Header() {
       )}
       <form className="flex-grow">
         <div className="flex items-center gap-2">
-          <button>
-            <HiSearch
-              style={{
-                fontSize: "20px",
-                color: "#333",
-              }}
-            />
+          <button type="button">
+            <HiSearch style={{ fontSize: "20px", color: "#333" }} />
           </button>
           <input
             className="px-4 w-[60%] h-8 rounded-full focus:outline-none"
@@ -136,23 +128,21 @@ export default function Header() {
         </div>
       </form>
       <div className="flex items-center gap-4">
-        <div className="flex" onClick={() => handleClick()}>
+        <div className="flex" onClick={handleClick}>
           <CartIcon length={cart.items.length} />
         </div>
-
         {isUploading || isLoadingUser ? (
           <SpinnerMini />
         ) : (
           <div className="relative flex items-center gap-6">
             <img
-              onClick={() => setIsupdateBox(!isupdateBox)}
+              onClick={() => setIsUpdateBox(!isUpdateBox)}
               className="w-12 h-12 rounded-full cursor-pointer"
               src={userNew?.data?.avatar || outline}
               alt="passport outline"
             />
             <span className="hidden sm:block">{userNew?.data?.name}</span>
-
-            {isupdateBox && (
+            {isUpdateBox && (
               <div className="absolute bottom-[-50px] bg-white rounded-md border border-gray-800 p-2">
                 <input
                   id="imageInput"
@@ -174,4 +164,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default Header;

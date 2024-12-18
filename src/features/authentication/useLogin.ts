@@ -37,7 +37,6 @@ export function useLogin() {
         // Update React Query cache with user data
         queryClient.setQueryData(["user"], userData);
         localStorage.setItem("localUser", JSON.stringify(userData));
-        console.log("❌❌", userData);
 
         Cookies.set("jwt", data.data.token, {
           expires: 7,

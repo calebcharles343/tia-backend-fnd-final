@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { useCreateReview } from "./useCreateReview";
 
-export default function ReviewForm({
-  ProjuctId,
-  refetchReviews,
-}: {
-  ProjuctId: number;
+interface ReviewFormProps {
+  productId: number;
   refetchReviews: () => void;
-}) {
-  const [reviewText, setReviewText] = useState("");
-  const [rating, setRating] = useState(0);
+}
 
-  const { createReview, errorMessage } = useCreateReview(ProjuctId);
+const ReviewForm: React.FC<ReviewFormProps> = ({
+  productId,
+  refetchReviews,
+}) => {
+  const [reviewText, setReviewText] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
+
+  const { createReview, errorMessage } = useCreateReview(productId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createReview({ review: reviewText, rating: rating } as any);
+    createReview({ review: reviewText, rating } as any);
     setReviewText("");
     setRating(0);
     refetchReviews();
@@ -55,8 +57,9 @@ export default function ReviewForm({
       >
         Submit Review
       </button>
-
       {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
     </form>
   );
-}
+};
+
+export default ReviewForm;

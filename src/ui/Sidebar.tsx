@@ -1,15 +1,16 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../features/authentication/useLogout";
 import SpinnerMini from "./SpinnerMini";
 import sideBarImg2 from "../data/img/SIdeBar-2.jpg";
 import { BiCart, BiHome, BiInfoCircle, BiLogOut } from "react-icons/bi";
 
-export default function Sidebar() {
+const Sidebar: React.FC = () => {
   const { logout, isPending } = useLogout();
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     logout();
-  }
+  };
 
   return (
     <div>
@@ -54,7 +55,7 @@ export default function Sidebar() {
           <SpinnerMini />
         ) : (
           <button
-            className=" flex items-center justify-center gap-2 mt-auto mb-0 text-gray-800 bg-gray-50 p-2 rounded hover:bg-[#ffa82b] hover:text-gray-800 transition-colors duration-200"
+            className="flex items-center justify-center gap-2 mt-auto mb-0 text-gray-800 bg-gray-50 p-2 rounded hover:bg-[#ffa82b] hover:text-gray-800 transition-colors duration-200"
             onClick={handleLogout}
           >
             <BiLogOut />
@@ -64,4 +65,6 @@ export default function Sidebar() {
       </nav>
     </div>
   );
-}
+};
+
+export default Sidebar;

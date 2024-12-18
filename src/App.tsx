@@ -1,3 +1,4 @@
+import React from "react";
 import {
   createBrowserRouter,
   Navigate,
@@ -47,15 +48,13 @@ const router = createBrowserRouter([
   { path: "*", element: <PageNotFound /> },
 ]);
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
-}
+};
 
 export default App;

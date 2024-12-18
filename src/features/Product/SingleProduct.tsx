@@ -3,8 +3,6 @@ import Modal from "../../ui/Modal";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useGetProduct from "./useGetProduct";
-import useDeleteProduct from "./useDeleteProduct";
 import { ItemType } from "../../interfaces";
 import { addItem } from "../../store/cartSlice";
 import SpinnerMini from "../../ui/SpinnerMini";
@@ -12,6 +10,8 @@ import StarRating from "../../ui/StarRating";
 import UpdateProductForm from "./UpdateProductForm";
 import { useUploadImage } from "../../hooks/images/useUploadImage";
 import imageHeader from "../../utils/imageApiHeader";
+import { useGetProduct } from "./useGetProduct";
+import { useDeleteProduct } from "./useDeleteProduct";
 
 interface ProductProps {
   product: any;

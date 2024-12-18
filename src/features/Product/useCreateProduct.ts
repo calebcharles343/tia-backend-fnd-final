@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useNavigate } from "react-router-dom";
 
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
@@ -8,7 +7,6 @@ import { ProductType } from "../../interfaces";
 
 interface ErrorResponse {
   message: string; // Assuming the error response has a 'message' field
-  // Add any other properties that might be in the error response
 }
 
 interface LoginError extends AxiosError {

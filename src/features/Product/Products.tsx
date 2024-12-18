@@ -7,22 +7,19 @@ import Modal from "../../ui/Modal";
 import CreateProductForm from "./CreateProductForm";
 import SingleProduct from "./SingleProduct";
 
-export default function Products() {
+const Products: React.FC = () => {
   const dispatch = useDispatch();
 
   // Fetch products using React Query
   const { products, isLoadingProducts, refetchProducts } = useFetchProducts();
 
-  // // Select products from Redux store
-  // const storeProducts = useSelector((state: any) => state.products.products); // Replace `any` with the root state type if defined
-
+  // Refetch products on component mount
   useEffect(() => {
-    // Refetch products on component mount
     refetchProducts();
   }, [refetchProducts]);
 
+  // Update Redux store when products data changes
   useEffect(() => {
-    // Update Redux store when products data changes
     if (products?.data) {
       dispatch(setProducts(products.data));
       // Save the first product item in local storage
@@ -30,7 +27,7 @@ export default function Products() {
     }
   }, [products, dispatch]);
 
-  // get user
+  // Get user
   const storedUserJSON = localStorage.getItem("localUser");
   let storedUser = null;
 
@@ -55,7 +52,7 @@ export default function Products() {
           <Modal>
             <Modal.Open open="createProduct">
               <button
-                className="text-xs text-white bg-blue-500 border border-blue-500 hover:bg-blue-600 px-2 py-1  rounded-md"
+                className="text-xs text-white bg-blue-500 border border-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md"
                 type="button"
               >
                 Add Product
@@ -67,7 +64,7 @@ export default function Products() {
             </Modal.Window>
           </Modal>
         </div>
-      )}{" "}
+      )}
       <ul className="grid grid-cols-1 mid:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
         {products?.data.map((product: ProductType) => (
           <SingleProduct key={product.id} product={product} />
@@ -75,4 +72,6 @@ export default function Products() {
       </ul>
     </div>
   );
-}
+};
+
+export default Products;

@@ -2,8 +2,13 @@ import React, { ReactNode } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
 import { closeModal, openModal } from "../store/modalSlice"; // Redux slice
+import { RootState } from "../store/store";
 
-function Modal({ children }: { children: ReactNode }) {
+interface ModalProps {
+  children: ReactNode;
+}
+
+function Modal({ children }: ModalProps): JSX.Element {
   return <>{children}</>;
 }
 
@@ -13,7 +18,7 @@ interface OpenProps {
   open: string;
 }
 
-function Open({ children, open }: OpenProps) {
+function Open({ children, open }: OpenProps): JSX.Element {
   const dispatch = useDispatch();
 
   return React.cloneElement(children, {
@@ -22,18 +27,19 @@ function Open({ children, open }: OpenProps) {
 }
 
 // Component for modal window
-function Window({ children, name }: { children: ReactNode; name: string }) {
+interface WindowProps {
+  children: ReactNode;
+  name: string;
+}
+
+function Window({ children, name }: WindowProps): JSX.Element | null {
   const dispatch = useDispatch();
-  const { openName } = useSelector((state: any) => state.modal); // Replace `any` with your root state type
-  // const { ref } = useOutsideClick(() => dispatch(closeModal()));
+  const { openName } = useSelector((state: RootState) => state.modal);
 
   if (name !== openName) return null;
 
   return createPortal(
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
-      // Apply ref only to the backdrop
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
       <div
         className="bg-white rounded-lg shadow-lg w-11/12 max-w-lg p-6 transition duration-500"
         onClick={(e) => e.stopPropagation()} // Prevent click events from propagating to the backdrop

@@ -11,7 +11,7 @@ interface FetchError extends AxiosError {
   response?: AxiosResponse<ErrorResponse>;
 }
 
-function useDeleteProduct() {
+export function useDeleteProduct() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -41,5 +41,3 @@ function useDeleteProduct() {
     errorDeletingProduct,
   };
 }
-
-export default useDeleteProduct;

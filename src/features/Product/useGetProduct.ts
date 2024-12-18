@@ -11,7 +11,7 @@ interface FetchError extends AxiosError {
   response?: AxiosResponse<ErrorResponse>;
 }
 
-function useGetProduct(id: number) {
+export function useGetProduct(id: number) {
   const {
     data: product,
     isLoading: isLoadingProduct,
@@ -39,5 +39,3 @@ function useGetProduct(id: number) {
     refetchProduct,
   };
 }
-
-export default useGetProduct;
